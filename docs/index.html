@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adjourn: The Democratically Ended Meeting | Den Frie Vilje</title>
+<meta name="description" content="Adjourn is a Microsoft Teams app that lets the room vote, anonymously and once each, to end the meeting. When enough of those present have voted, the organiser is asked to end it. Free.">
+<link rel="canonical" href="https://den-frie-vilje.github.io/adjourn/">
+<meta name="theme-color" content="#5d5bd4">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Adjourn: The Democratically Ended Meeting">
+<meta property="og:description" content="The room votes, anonymously and once each. At the threshold, the meeting ends. A Teams app by Den Frie Vilje. Free.">
+<meta property="og:url" content="https://den-frie-vilje.github.io/adjourn/">
+<meta property="og:image" content="https://den-frie-vilje.github.io/adjourn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card reading Motion to adjourn, 4 of 7 present have voted to end the meeting, beside the words The Democratically Ended Meeting.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%235d5bd4'/%3E%3Ccircle cx='96' cy='96' r='52' fill='none' stroke='%23fff' stroke-width='14'/%3E%3Cpath d='M96 44a52 52 0 0 1 0 104z' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+  /* Register: the Microsoft Teams product page on microsoft.com, measured from its stylesheet (OneCloud Reimagine, theme-day).
+     Segoe UI Variable with Helvetica and Arial as its own fallbacks, a 54px white header, a 1328px container, purple #5d5bd4 pills,
+     cards with a 1rem radius and a depth-4 shadow, white and lilac bands, a grey footer. */
+  :root {
+    --display: "Segoe UI Variable Display", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --text: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --ink: rgb(14, 23, 38);
+    --ink-2: rgb(23, 37, 61);
+    --grey: #616161;
+    --rule: rgb(189, 197, 210);
+    --rule-card: rgb(222, 221, 223);
+    --brand: #5d5bd4;
+    --brand-h: rgb(85, 83, 193);
+    --brand-dark: rgb(51, 50, 117);
+    --brand-deep: rgb(32, 31, 72);
+    --lilac-50: rgb(251, 245, 251);
+    --lilac-100: rgb(242, 225, 243);
+    --vapor-50: rgb(247, 247, 247);
+    --vapor-100: rgb(231, 231, 231);
+    --card: rgb(254, 254, 254);
+    --depth-4: 0 0 .125rem rgba(0,0,0,.12), 0 .125rem .25rem rgba(0,0,0,.14);
+    --depth-8: 0 0 .125rem rgba(0,0,0,.12), 0 .25rem .5rem rgba(0,0,0,.14);
+    --depth-16: 0 0 .125rem rgba(0,0,0,.12), 0 .5rem 1rem rgba(0,0,0,.14);
+    --radius-s: .5rem;
+    --radius-l: 1rem;
+    --pad: 1rem;
+    --band: 3rem;
+    --gap: 1.5rem;
+  }
+  @media (min-width: 860px) { :root { --pad: 3.5rem; --band: 4.5rem; --gap: 2rem; --radius-l: 1.5rem; } }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 120px; scroll-behavior: smooth; }
+  body { font: 400 1rem/1.5rem var(--text); letter-spacing: -.03em; color: var(--ink); background: #fff; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  button { font: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  sup { font-size: .6em; line-height: 0; vertical-align: super; }
+  sup a { text-decoration: none; color: var(--brand-dark); font-weight: 600; }
+  sup a:hover { text-decoration: underline; }
+  .container { max-width: 1328px; margin: 0 auto; padding: 0 var(--pad); }
+  .skip { position: absolute; left: -9999px; top: 8px; z-index: 100; background: #fff; color: #000; padding: 8px 14px; border-radius: 4px; }
+  .skip:focus { left: 8px; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  h1, h2, h3, h4 { font-family: var(--display); font-weight: 500; text-wrap: balance; }
+  h1 { font-size: 2.5rem; line-height: 3rem; letter-spacing: -.025em; }
+  h2 { font-size: 2rem; line-height: 2.5rem; letter-spacing: -.025em; }
+  h3 { font-size: 1.5rem; line-height: 2rem; letter-spacing: -.015em; }
+  h4, .h5 { font-size: 1.125rem; line-height: 1.5rem; font-weight: 600; letter-spacing: -.015em; }
+  @media (min-width: 860px) { h1 { font-size: 2.75rem; line-height: 3.5rem; } h2 { font-size: 2.5rem; line-height: 3rem; } }
+  @media (min-width: 1440px) { h1 { font-size: 3.875rem; line-height: 4.5rem; } h2 { font-size: 3rem; line-height: 3.5rem; } h3 { font-size: 2rem; line-height: 2.5rem; } }
+  p { text-wrap: pretty; }
+  .lead { font-size: 1.125rem; line-height: 1.75rem; }
+  @media (min-width: 1440px) { .lead { font-size: 1.25rem; line-height: 2rem; } }
+  .eyebrow { font-size: .75rem; line-height: 1rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .75rem; }
+  .small { font-size: .875rem; line-height: 1.25rem; }
+  .muted { color: var(--ink-2); }
+
+  /* buttons and links, as measured: 2px transparent border, .5rem × 1rem, 600 at .9375rem, .5rem radius */
+  .btn { display: inline-flex; align-items: center; gap: .5rem; border: 2px solid transparent; padding: .5rem 1rem; border-radius: var(--radius-s); font-weight: 600; font-size: .9375rem; line-height: 1.375rem; letter-spacing: -.02em; text-decoration: none; color: #fff; background: var(--brand); transition: background .15s; white-space: nowrap; }
+  .btn:hover { background: var(--brand-h); }
+  .btn.secondary { background: transparent; color: var(--brand-dark); border-color: var(--brand-dark); }
+  .btn.secondary:hover { background: rgba(93, 91, 212, .06); }
+  .link { display: inline-flex; align-items: center; gap: .5rem; color: var(--brand-dark); font-weight: 600; font-size: .875rem; line-height: 1.25rem; text-decoration: none; }
+  .link::after { content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 1.5px 1.5px 0 0; transform: rotate(45deg); flex: none; }
+  .link:hover { text-decoration: underline; }
+
+  /* the global header, after the 54px white uhf bar: brand left, a pipe, the site name, links right */
+  .uhf { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--vapor-100); }
+  .uhf .row { height: 54px; display: flex; align-items: center; gap: 1.25rem; padding: 0 5%; font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; }
+  .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; font-weight: 600; font-size: 17px; color: #262626; white-space: nowrap; }
+  .brand svg { width: 22px; height: 22px; }
+  .uhf .pipe { width: 2px; height: 24px; background: #737373; opacity: .5; }
+  .uhf .site { font-size: 18px; font-weight: 600; text-decoration: none; color: #262626; white-space: nowrap; }
+  .uhf nav { display: flex; gap: .25rem; margin-left: .5rem; }
+  .uhf nav a, .uhf .end a, .uhf summary { font-size: 13px; color: #262626; text-decoration: none; padding: 6px 10px; border-radius: 4px; list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .uhf nav a:hover, .uhf .end a:hover, .uhf summary:hover { background: var(--vapor-50); text-decoration: underline; }
+  .uhf summary::-webkit-details-marker { display: none; }
+  .chev { width: 8px; height: 8px; border: solid currentColor; border-width: 0 1.3px 1.3px 0; transform: rotate(45deg) translate(-2px, -2px); transition: transform .2s; flex: none; }
+  details[open] > summary .chev { transform: rotate(225deg) translate(-2px, -2px); }
+  .drop { position: relative; }
+  .drop .menu { position: absolute; top: calc(100% + 8px); left: 0; min-width: 300px; background: #f2f2f2; border-radius: 8px; padding: 8px; box-shadow: var(--depth-16); z-index: 5; }
+  .drop.right .menu { left: auto; right: 0; }
+  .drop .menu a { display: block; padding: 8px 12px; border-radius: 4px; font-size: 14px; }
+  .drop .menu a:hover { background: #e6e6e6; }
+  .drop .menu small { display: block; color: var(--grey); font-size: 12px; }
+  .drop .menu p { padding: 8px 12px 2px; color: var(--grey); font-size: 12px; }
+  .uhf .end { margin-left: auto; display: flex; align-items: center; gap: .25rem; }
+  .uhf .end a.btn { padding: .3rem .8rem; font-size: 13px; line-height: 1.25rem; margin-left: .5rem; color: #fff; }
+  .uhf .end a.btn:hover { background: var(--brand-h); text-decoration: none; }
+  @media (max-width: 1260px) { .uhf nav { display: none; } }
+  @media (max-width: 760px) { .uhf .end a:not(.btn), .uhf .end .drop { display: none; } }
+  @media (max-width: 480px) { .uhf .pipe, .uhf .site { display: none; } }
+
+  /* the in-page anchor row, as under the Teams hero: sticky, links left, a pill right */
+  .anchors { position: sticky; top: 54px; z-index: 40; background: #fff; border-bottom: 1px solid var(--vapor-100); }
+  .anchors .container { display: flex; align-items: center; gap: 1.5rem; height: 56px; overflow-x: auto; scrollbar-width: none; }
+  .anchors a:not(.btn) { font-size: .875rem; font-weight: 600; color: var(--ink); text-decoration: none; white-space: nowrap; padding: 4px 0; border-bottom: 2px solid transparent; }
+  .anchors a:not(.btn):hover { border-color: var(--brand); }
+  .anchors .btn { margin-left: auto; }
+
+  section { padding: var(--band) 0; }
+  .band-neutral { background: #fff; }
+  .band-fade { background: var(--lilac-50); }
+  .band-color { background: var(--lilac-100); }
+  .band-vapor { background: var(--vapor-50); }
+  .band-sky { background: linear-gradient(90deg, #ede8f6 0%, #f4fafd 49.99%, #dceef8 100%); }
+
+  /* announcement strip, hero: two columns, text left, the card right */
+  .strip { background: var(--lilac-100); font-size: .875rem; line-height: 1.25rem; padding: .75rem 0; text-align: center; }
+  .strip a { font-weight: 600; color: var(--brand-dark); }
+  .hero { padding-top: 2.5rem; }
+  .hero .cols { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
+  @media (min-width: 860px) { .hero { padding-top: 4rem; } .hero .cols { grid-template-columns: 5fr 6fr; gap: var(--gap); } }
+  .hero .lead { margin-top: 1rem; color: var(--ink-2); max-width: 36rem; }
+  .hero .ctas { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-top: 1.5rem; }
+  .hero .fine { margin-top: 1rem; color: var(--grey); }
+
+  /* the card, drawn as Adjourn posts it, on a stage, with a simulated vote */
+  .stage { position: relative; border-radius: var(--radius-l); background: linear-gradient(131deg, #cbe6f4 0%, #8dc8e8 50.25%, #c5b4e3 100%); padding: clamp(1.25rem, 5vw, 3.5rem); display: grid; place-items: center; min-height: 380px; overflow: hidden; }
+  .stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 60% at 70% 20%, rgba(255,255,255,.55), transparent 70%); pointer-events: none; }
+  .msg { position: relative; width: min(100%, 420px); }
+  .msg .who { display: flex; align-items: center; gap: .5rem; font-size: .75rem; color: var(--ink-2); margin-bottom: .4rem; letter-spacing: 0; }
+  .msg .who i { width: 24px; height: 24px; border-radius: 6px; background: var(--brand); display: grid; place-items: center; }
+  .msg .who i svg { width: 14px; height: 14px; }
+  .acard { background: #fff; border-radius: 8px; box-shadow: var(--depth-8); padding: 1rem 1rem 1.1rem; font-family: var(--text); letter-spacing: 0; color: #242424; }
+  .acard b { display: block; font-size: 1.25rem; line-height: 1.75rem; font-weight: 700; }
+  .acard p { margin-top: .5rem; font-size: .875rem; line-height: 1.25rem; min-height: 2.5rem; font-variant-numeric: tabular-nums; }
+  .acard small { display: block; color: #616161; font-size: .75rem; line-height: 1rem; margin-top: .25rem; }
+  .acard .vote { margin-top: .9rem; display: inline-flex; align-items: center; gap: .5rem; border-radius: 4px; padding: .4rem .85rem; font-size: .875rem; font-weight: 600; color: #fff; background: #5b5fc7; transition: background .15s; }
+  .acard .vote:hover { background: #4f52b2; }
+  .acard .vote:disabled { background: #e0e0e0; color: #616161; cursor: default; }
+  .acard .meter { margin-top: .9rem; height: 6px; border-radius: 3px; background: #f0f0f0; overflow: hidden; }
+  .acard .meter i { display: block; height: 100%; width: 0; background: #5b5fc7; transition: width .35s ease-out; border-radius: 3px; }
+  .acard .meter.carried i { background: #107c10; }
+  .toast { position: absolute; left: 50%; bottom: 1rem; transform: translate(-50%, 8px); background: #242424; color: #fff; font-size: .8125rem; line-height: 1.25rem; padding: .45rem .9rem; border-radius: 6px; box-shadow: var(--depth-8); opacity: 0; transition: opacity .2s, transform .2s; white-space: nowrap; letter-spacing: 0; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .orgnote { position: absolute; right: 1rem; top: 1rem; width: min(70%, 250px); background: #fff; border-radius: 8px; box-shadow: var(--depth-16); padding: .8rem .9rem; font-size: .8125rem; line-height: 1.2rem; letter-spacing: 0; color: #242424; opacity: 0; transform: translateY(-8px); transition: opacity .3s, transform .3s; }
+  .orgnote.show { opacity: 1; transform: none; }
+  .orgnote b { display: block; font-size: .8125rem; margin-bottom: .2rem; }
+  .orgnote span { color: #616161; display: block; margin-top: .35rem; font-size: .75rem; }
+  .stage .legend { position: absolute; left: 1rem; bottom: 1rem; font-size: .75rem; color: var(--ink-2); letter-spacing: 0; }
+
+  /* Ask: a search-like field and two chips */
+  .ask { text-align: center; }
+  .ask h2 { font-size: 1.5rem; line-height: 2rem; }
+  .ask p { margin-top: .5rem; color: var(--ink-2); }
+  .askbox { max-width: 760px; margin: 1.5rem auto 0; display: flex; gap: .5rem; align-items: center; background: #fff; border-radius: 999px; box-shadow: var(--depth-4); padding: .4rem .5rem .4rem 1.25rem; text-align: left; }
+  .askbox input { flex: 1; border: 0; font: inherit; letter-spacing: inherit; min-width: 0; background: transparent; color: var(--ink); }
+  .askbox input:focus { outline: none; }
+  .askbox button { width: 40px; height: 40px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; flex: none; }
+  .askbox button svg { width: 18px; height: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: 1.25rem; }
+  .answer { max-width: 760px; margin: 1.25rem auto 0; text-align: left; background: #fff; border-radius: var(--radius-s); box-shadow: var(--depth-4); padding: 1rem 1.25rem; display: none; }
+  .answer.show { display: block; animation: rise .3s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+
+  /* cards, as measured: card background, depth-4, radius-l, 1rem padding, media on top with .5rem padding */
+  .cards { display: grid; grid-template-columns: 1fr; gap: var(--gap); margin-top: 2rem; }
+  @media (min-width: 760px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cards.four { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (min-width: 760px) and (max-width: 1100px) { .cards.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .card { background: var(--card); border-radius: var(--radius-l); box-shadow: var(--depth-4); padding: .5rem; display: flex; flex-direction: column; transition: box-shadow .2s; }
+  .card:hover { box-shadow: var(--depth-8); }
+  .card .media { aspect-ratio: 16 / 10; border-radius: calc(var(--radius-l) - .5rem); overflow: hidden; display: grid; place-items: center; position: relative; }
+  .card .body { padding: 1rem .5rem .75rem; display: flex; flex-direction: column; gap: .75rem; flex: 1; }
+  .card .body p { color: var(--ink-2); }
+  .card .body .link { margin-top: auto; }
+  @media (min-width: 860px) { .card { padding: .5rem .5rem 1rem; } .card .body { padding: 1.25rem 1rem .25rem; } }
+  .card .eyebrow { margin-bottom: 0; color: var(--brand-dark); }
+
+  /* the pictures in the cards are drawn, not photographed */
+  .pic { width: 100%; height: 100%; }
+  .quadrant { background: var(--vapor-50); }
+  .quadrant svg { width: 70%; height: auto; }
+  .prompt { background: var(--brand-deep); color: #fff; padding: 1.25rem; }
+  .prompt .bubble { background: rgba(255,255,255,.12); border-radius: 12px; padding: .75rem 1rem; font-size: .875rem; line-height: 1.25rem; letter-spacing: 0; width: 100%; }
+  .prompt .bubble + .bubble { background: #fff; color: var(--ink); margin-top: .6rem; }
+  .threads { background: var(--lilac-100); padding: 1.25rem; }
+  .threads .row { display: flex; gap: .5rem; align-items: center; width: 100%; }
+  .threads .row + .row { margin-top: .5rem; }
+  .threads .row i { width: 22px; height: 22px; border-radius: 50%; background: var(--brand); opacity: .75; flex: none; }
+  .threads .row span { height: 10px; border-radius: 5px; background: #fff; flex: 1; }
+  .threads .row span.short { flex: .45; }
+
+  /* solutions: a tab row, then an exclusive accordion left and a picture right, after "Simple, smart, secure" */
+  .tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.5rem; border-bottom: 1px solid var(--rule); }
+  .tabs button { padding: .75rem 1rem; font-weight: 600; font-size: .9375rem; color: var(--ink-2); border-bottom: 3px solid transparent; margin-bottom: -1px; }
+  .tabs button[aria-selected="true"] { color: var(--brand-dark); border-color: var(--brand); }
+  .tabs button:hover { color: var(--ink); }
+  .panel { display: none; }
+  .panel.show { display: grid; grid-template-columns: 1fr; gap: var(--gap); margin-top: 2rem; align-items: center; animation: rise .3s ease-out; }
+  @media (min-width: 860px) { .panel.show { grid-template-columns: 1fr 1fr; } }
+  .acc details { border-bottom: 1px solid var(--rule); }
+  .acc summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.5rem 0; font-family: var(--display); font-weight: 600; font-size: 1.125rem; line-height: 1.5rem; }
+  .acc summary::-webkit-details-marker { display: none; }
+  .acc details p { padding: 0 0 1.5rem 2rem; color: var(--ink-2); max-width: 46ch; }
+  .acc details[open] p { animation: rise .3s ease-out; }
+  .figure { border-radius: var(--radius-l); background: var(--vapor-50); aspect-ratio: 4 / 3; display: grid; place-items: center; padding: 2rem; overflow: hidden; }
+  .figure .big { font: 500 clamp(56px, 10vw, 120px)/1 var(--display); letter-spacing: -.04em; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .figure .cap { margin-top: .75rem; color: var(--ink-2); text-align: center; }
+  .figure.dark { background: var(--brand-deep); color: #fff; }
+  .figure.dark .big { color: #fff; }
+  .figure.dark .cap { color: rgba(255,255,255,.8); }
+
+  /* plans: tabs, then a lead card and plan cards, after "Find the right Teams plan" */
+  .plan { background: var(--card); border-radius: var(--radius-l); box-shadow: var(--depth-4); padding: 1rem 1rem 1.5rem; display: flex; flex-direction: column; gap: .75rem; }
+  .plan h4 { font-size: 1.125rem; }
+  .plan .price { font-family: var(--display); font-size: 1.75rem; font-weight: 500; letter-spacing: -.02em; }
+  .plan .price small { font-size: .875rem; color: var(--grey); font-weight: 400; letter-spacing: 0; }
+  .plan p { color: var(--ink-2); flex: 1; }
+  .plan ul { list-style: none; display: grid; gap: .4rem; font-size: .9375rem; }
+  .plan li { padding-left: 1.4rem; position: relative; }
+  .plan li::before { content: ""; position: absolute; left: .25rem; top: .45rem; width: .35rem; height: .65rem; border: solid #107c10; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  .plans-lead { display: grid; grid-template-columns: 1fr; gap: var(--gap); margin-top: 2rem; }
+  @media (min-width: 860px) { .plans-lead { grid-template-columns: 1fr 2fr; align-items: start; } }
+  .plans-lead .intro h3 { margin-bottom: .75rem; }
+  .plans-lead .intro p { color: var(--ink-2); margin-bottom: 1.25rem; }
+  .plans-lead .cards { margin-top: 0; }
+
+  /* customer stories: a carousel in spirit, three stories side by side */
+  .story { background: var(--card); border-radius: var(--radius-l); box-shadow: var(--depth-4); padding: 1.5rem; display: flex; flex-direction: column; gap: .75rem; }
+  .story .meta { font-size: .875rem; color: var(--grey); }
+  .story h3 { font-size: 1.25rem; line-height: 1.75rem; }
+  .story p { color: var(--ink-2); flex: 1; }
+  .story .products { font-size: .875rem; }
+  .story .products b { display: block; font-weight: 600; margin-bottom: .25rem; }
+  .story .products span { color: var(--brand-dark); font-weight: 600; }
+
+  /* research: Adjourn 2, in the style of a featured news band, but with the truth in the footnotes */
+  .research .card .media { background: var(--brand-deep); color: #fff; }
+  .swell { width: 100%; height: 100%; display: flex; align-items: flex-end; gap: 3px; padding: 1.25rem; }
+  .swell i { flex: 1; background: linear-gradient(180deg, #c5b4e3, #7f85f5); border-radius: 2px 2px 0 0; height: calc(var(--h) * 1%); animation: sway 2.2s ease-in-out infinite alternate; animation-delay: calc(var(--d) * 1s); }
+  @keyframes sway { to { height: calc(var(--h) * 1.35%); } }
+  .robot { width: 72%; height: auto; }
+  .lights { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 1.25rem; }
+  .lights i { border-radius: 3px; background: #fde300; opacity: .9; animation: dim 3s ease-in-out infinite; animation-delay: calc(var(--d) * .35s); }
+  @keyframes dim { 50% { opacity: .08; } }
+
+  /* get started: a statement and four columns, after "GET STARTED" */
+  .start h2 { max-width: 52rem; }
+  .start .cols { display: grid; grid-template-columns: 1fr; gap: var(--gap); margin-top: 2.5rem; }
+  @media (min-width: 760px) { .start .cols { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .start h3 { font-size: 1.25rem; line-height: 1.75rem; margin-bottom: .5rem; }
+  .start p { color: var(--ink-2); margin-bottom: 1rem; }
+  .cmd { margin-top: 1.5rem; background: var(--brand-deep); color: #fff; border-radius: var(--radius-s); padding: 1rem 1.25rem; font: .875rem/1.5 ui-monospace, "Cascadia Code", "Cascadia Mono", Consolas, monospace; letter-spacing: 0; overflow-x: auto; white-space: pre; }
+
+  /* footnotes and the legal paragraph, then the grey footer */
+  .notes { font-size: .8125rem; line-height: 1.25rem; color: var(--grey); padding: 0 0 var(--band); }
+  .notes ol { padding-left: 1.4em; display: grid; gap: .5rem; }
+  .notes p { margin-top: 1.25rem; }
+  .notes a { color: var(--brand-dark); }
+  .follow { padding: 2rem 0; border-top: 1px solid var(--vapor-100); }
+  .follow .container { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+  .follow h2 { font-size: 1.125rem; line-height: 1.5rem; font-weight: 600; }
+  .follow a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--rule); display: grid; place-items: center; color: var(--ink); text-decoration: none; }
+  .follow a:hover { background: var(--vapor-50); }
+  .follow svg { width: 16px; height: 16px; }
+  footer { background: #f2f2f2; color: #616161; font-size: 12px; line-height: 16px; padding: 2.5rem 5% 5rem; }
+  .fcols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; max-width: 1600px; margin: 0 auto; }
+  @media (min-width: 860px) { .fcols { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+  .fcols h4 { color: #1b1b1b; font-size: 15px; line-height: 20px; font-weight: 600; margin-bottom: 12px; letter-spacing: 0; }
+  .fcols ul { list-style: none; display: grid; gap: 10px; }
+  .fcols a { text-decoration: none; }
+  .fcols a:hover, .legal a:hover { text-decoration: underline; }
+  .legal { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin: 40px auto 0; max-width: 1600px; }
+  .legal a { text-decoration: none; }
+  .legal .lang { display: flex; align-items: center; gap: 8px; margin-right: auto; }
+  .legal svg { width: 16px; height: 16px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mark" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#5d5bd4"/><circle cx="96" cy="96" r="52" fill="none" stroke="#fff" stroke-width="14"/><path d="M96 44a52 52 0 0 1 0 104z" fill="#fff"/></symbol>
+    <symbol id="ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10.5" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 5.5a10.5 10.5 0 0 1 0 21z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<header class="uhf">
+  <div class="row">
+    <a class="brand" href="https://denfrievilje.dk"><svg aria-hidden="true"><use href="#mark"/></svg>Den Frie Vilje</a>
+    <span class="pipe" aria-hidden="true"></span>
+    <a class="site" href="#top">Adjourn</a>
+    <nav aria-label="Adjourn">
+      <a href="#solutions">Personal</a>
+      <a href="#plans">Business</a>
+      <a href="#plans">Enterprise</a>
+      <a href="#research">Adjourn 2</a>
+      <a href="#plans">Plans and pricing</a>
+    </nav>
+    <div class="end">
+      <details class="drop right"><summary>All Den Frie Vilje <span class="chev" aria-hidden="true"></span></summary>
+        <div class="menu">
+          <p>For Microsoft Teams</p>
+          <a href="#top">Adjourn<small>The democratically ended meeting. You are here.</small></a>
+          <p>For Windows</p>
+          <a href="https://den-frie-vilje.github.io/hotfix/">Hotfix<small>It's warmer on Windows</small></a>
+          <p>For the Mac</p>
+          <a href="https://den-frie-vilje.github.io/boomerblaster/">BoomerBlaster<small>A silent disco for the open-plan office</small></a>
+          <a href="https://den-frie-vilje.github.io/docksteady/">docksteady<small>Keeps identical displays where you put them</small></a>
+          <a href="https://den-frie-vilje.github.io/cupertino-files/">cupertino-files<small>Pages, Numbers and Keynote files in TypeScript</small></a>
+        </div>
+      </details>
+      <a href="https://github.com/den-frie-vilje/adjourn#readme">Support</a>
+      <a href="#get">Try for free</a>
+      <a class="btn" href="#get">Download Adjourn</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<p class="strip">Discover what's coming to Adjourn Ignite, a meeting of twelve minutes, Nov 17, 2026. <a href="#research">Register now</a></p>
+
+<section class="hero band-neutral" id="top" aria-labelledby="hero-title">
+  <div class="container cols">
+    <div>
+      <h1 id="hero-title">Adjourn: The Democratically Ended Meeting</h1>
+      <p class="lead">Transform the way you leave, in the era of the overrun. Anyone in the meeting votes to end it, anonymously and once. At the threshold, it ends.<sup><a href="#fn-1" id="r-1">1</a></sup></p>
+      <div class="ctas">
+        <a class="btn" href="#get">Download now</a>
+        <a class="link" href="#solutions">See how it counts</a>
+      </div>
+      <p class="fine small">Free. For meetings in Microsoft Teams. Nothing to install on anyone's machine.</p>
+    </div>
+    <div class="stage" aria-label="A simulated vote on the Adjourn card">
+      <div class="msg">
+        <div class="who"><i><svg aria-hidden="true"><use href="#ring"/></svg></i>Adjourn · 14:32</div>
+        <div class="acard">
+          <b>Motion to adjourn</b>
+          <p id="demo-status">3 of 7 present have voted to end the meeting. It takes 4.</p>
+          <small>Anonymous. One vote each.</small>
+          <div class="meter" id="demo-meter"><i style="width:43%"></i></div>
+          <button class="vote" type="button" id="demo-vote">Vote to end the meeting</button>
+        </div>
+      </div>
+      <div class="toast" id="demo-toast" role="status" aria-live="polite"></div>
+      <div class="orgnote" id="demo-org" aria-live="polite"><b>Motion to adjourn</b>The room has voted to end the meeting. 4 of 7.<span>Select the arrow next to Leave, then End meeting.</span></div>
+      <p class="legend">Simulated in your browser. Press the button.<sup><a href="#fn-2" id="r-2">2</a></sup></p>
+    </div>
+  </div>
+</section>
+
+<div class="anchors" aria-label="On this page">
+  <div class="container">
+    <a href="#news">Featured news</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#plans">Products and services</a>
+    <a href="#stories">Customer stories</a>
+    <a href="#research">Research</a>
+    <a href="#get">Get started</a>
+    <a class="btn" href="#plans">See plans and pricing</a>
+  </div>
+</div>
+
+<section class="ask band-sky" aria-labelledby="ask-title">
+  <div class="container">
+    <h2 id="ask-title">Ask Den Frie Vilje</h2>
+    <p>Need help finding the end of a meeting? Try Ask Den Frie Vilje.</p>
+    <form class="askbox" id="askform">
+      <label for="ask" class="visually-hidden" style="position:absolute;left:-9999px">Ask a question</label>
+      <input id="ask" type="text" placeholder="When does this end?" autocomplete="off">
+      <button type="submit" aria-label="Ask"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button>
+    </form>
+    <div class="chips">
+      <button class="btn secondary" type="button" data-ask="benefits">What are the key benefits of Adjourn?</button>
+      <button class="btn secondary" type="button" data-ask="quote">Get a custom quote</button>
+    </div>
+    <div class="answer" id="answer" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="band-neutral" id="news" aria-labelledby="news-title">
+  <div class="container">
+    <p class="eyebrow">Featured news</p>
+    <h2 id="news-title">Discover what's happening with Adjourn</h2>
+    <div class="cards">
+      <article class="card">
+        <div class="media threads" aria-hidden="true">
+          <div class="row"><i></i><span></span></div><div class="row"><i></i><span class="short"></span></div><div class="row"><i></i><span></span></div><div class="row"><i style="background:#107c10"></i><span class="short" style="background:#107c10;opacity:.6"></span></div>
+        </div>
+        <div class="body">
+          <h3 class="h5">From Agenda to Exit: Adjourn Features That Boost Everyone's Afternoon</h3>
+          <p>Organisations want to leave faster and smarter. Guided by customer feedback, Adjourn is adding one card, one button and one threshold, and then stopping.</p>
+          <a class="link" href="#solutions">Learn more</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="media quadrant" aria-hidden="true">
+          <svg viewBox="0 0 200 160" fill="none"><rect x="20" y="10" width="160" height="130" stroke="#bdc5d2"/><path d="M100 10v130M20 75h160" stroke="#bdc5d2" stroke-dasharray="3 3"/><text x="24" y="150" font-size="8" fill="#616161" font-family="system-ui">Completeness of exit →</text><text x="12" y="135" font-size="8" fill="#616161" font-family="system-ui" transform="rotate(-90 12 135)">Ability to leave →</text><circle cx="168" cy="22" r="7" fill="#5d5bd4"/><text x="124" y="40" font-size="8" fill="#201f48" font-family="system-ui" font-weight="600">Adjourn</text><circle cx="44" cy="118" r="5" fill="#bdc5d2"/><text x="52" y="121" font-size="7" fill="#616161" font-family="system-ui">Another five minutes</text><circle cx="70" cy="96" r="5" fill="#bdc5d2"/><text x="78" y="99" font-size="7" fill="#616161" font-family="system-ui">Leaving quietly</text></svg>
+        </div>
+        <div class="body">
+          <h3 class="h5">Den Frie Vilje Magic Quadrant</h3>
+          <p>Adjourn was named a Leader in the Den Frie Vilje Magic Quadrant for Leaving as a Service for the first consecutive year, positioned highest on the "ability to leave" axis and furthest on the "completeness of exit" axis<sup><a href="#fn-3" id="r-3">3</a></sup> in 2026.</p>
+          <a class="link" href="#fn-3">Read the report</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="media prompt" aria-hidden="true">
+          <div class="bubble">Summarise the decisions so far.</div>
+          <div class="bubble">There were none. Would you like to adjourn?</div>
+        </div>
+        <div class="body">
+          <h3 class="h5">Prompt like a pro with Adjourn</h3>
+          <p>Realise the full potential of your meeting's decision-making with the one prompt that works: "End the meeting." Adjourn asks the organiser for you, so that every idea is left where it was, evaluated later, and brought to life after lunch.</p>
+          <a class="link" href="#solutions">Learn more</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band-fade" id="solutions" aria-labelledby="sol-title">
+  <div class="container">
+    <p class="eyebrow">Solutions</p>
+    <h2 id="sol-title">Simple, short, secret</h2>
+    <div class="tabs" role="tablist" aria-label="Solutions">
+      <button role="tab" id="tab-vote" aria-selected="true" aria-controls="panel-vote">Vote &amp; Count</button>
+      <button role="tab" id="tab-carry" aria-selected="false" aria-controls="panel-carry">Thresholds &amp; Carrying</button>
+      <button role="tab" id="tab-secret" aria-selected="false" aria-controls="panel-secret">Privacy</button>
+      <button role="tab" id="tab-it" aria-selected="false" aria-controls="panel-it">For IT</button>
+    </div>
+
+    <div class="panel show" id="panel-vote" role="tabpanel" aria-labelledby="tab-vote">
+      <div class="acc">
+        <details name="vote" open><summary>Streamline the exit <span class="chev" aria-hidden="true"></span></summary><p>Adjourn posts one card in the meeting chat, when it is added or when the meeting starts. It carries a count, a button and nothing else. No agenda, no notes, no Loop components.</p></details>
+        <details name="vote"><summary>One vote each <span class="chev" aria-hidden="true"></span></summary><p>A participant's vote counts once. A second press is answered privately with "You have already voted", and the count stays where it was. There is no withdrawing a vote, as there is no un-leaving a room.</p></details>
+        <details name="vote"><summary>Count those present <span class="chev" aria-hidden="true"></span></summary><p>Votes are measured against the people in the meeting at that moment, not the invitation list. Someone who voted and then left stops counting. Someone who joins late raises the bar.<sup><a href="#fn-4" id="r-4">4</a></sup></p></details>
+        <details name="vote"><summary>Turn meetings into action <span class="chev" aria-hidden="true"></span></summary><p>The action is leaving. Adjourn keeps work moving forward by moving it out of the meeting and into the afternoon, where it was going to happen anyway.</p></details>
+      </div>
+      <div class="figure"><div><div class="big">4 / 7</div><p class="cap">Present, and voting. The invitation list of 23 is not consulted.</p></div></div>
+    </div>
+
+    <div class="panel" id="panel-carry" role="tabpanel" aria-labelledby="tab-carry">
+      <div class="acc">
+        <details name="carry" open><summary>Customise the threshold <span class="chev" aria-hidden="true"></span></summary><p>The organiser picks the share of those present that carries the motion: 50, 67, 75 or 100 percent. Half is the default, because half the room wanting to leave is already a finding.</p></details>
+        <details name="carry"><summary>Carry the motion <span class="chev" aria-hidden="true"></span></summary><p>When the count reaches the threshold, the card closes and the organiser gets a private notification on the meeting stage: the room has voted, 4 of 7, select the arrow next to Leave, then End meeting.</p></details>
+        <details name="carry"><summary>The organiser presses the button <span class="chev" aria-hidden="true"></span></summary><p>Microsoft Teams gives no app a way to end a meeting for everyone.<sup><a href="#fn-5" id="r-5">5</a></sup> Adjourn therefore ends it the way a chair does: by asking, with the numbers, in front of nobody but the chair.</p></details>
+        <details name="carry"><summary>Break down language barriers <span class="chev" aria-hidden="true"></span></summary><p>The card is in English. The sentiment translates.</p></details>
+      </div>
+      <div class="figure dark"><div><div class="big">50%</div><p class="cap">The default threshold. Also 67, 75 and 100, for organisers who enjoy a landslide.</p></div></div>
+    </div>
+
+    <div class="panel" id="panel-secret" role="tabpanel" aria-labelledby="tab-secret">
+      <div class="acc">
+        <details name="secret" open><summary>Vote securely <span class="chev" aria-hidden="true"></span></summary><p>A vote is a button press on the card, delivered to Adjourn as a private invoke from Teams. Nothing is posted in the chat. The card shows counts and never names.</p></details>
+        <details name="secret"><summary>Enhance protection <span class="chev" aria-hidden="true"></span></summary><p>Adjourn keeps a salted hash of each voter, only for as long as the meeting lasts, only to stop a second vote. The salt is drawn fresh for every motion. Nobody, Adjourn included, can read the hashes back into people.</p></details>
+        <details name="secret"><summary>Nothing to sign in to <span class="chev" aria-hidden="true"></span></summary><p>No account, no database, no telemetry. The organiser's notification carries two numbers in a URL. The state lives in the memory of one small process and dies with the meeting.</p></details>
+        <details name="secret"><summary>Collaborate securely <span class="chev" aria-hidden="true"></span></summary><p>The permissions Adjourn asks for are the ones it uses: read the meeting's basic details, read who is in it, send the organiser a notification, read the chat's members. It cannot read messages, and it does not want to.</p></details>
+      </div>
+      <div class="figure"><div><div class="big">0</div><p class="cap">Names shown, stored, or sent. The count is the whole output.</p></div></div>
+    </div>
+
+    <div class="panel" id="panel-it" role="tabpanel" aria-labelledby="tab-it">
+      <div class="acc">
+        <details name="it" open><summary>Simplify management <span class="chev" aria-hidden="true"></span></summary><p>Adjourn is one Node.js process behind one HTTPS endpoint, registered as a bot. It runs where you run things. The app package is a zip with a manifest and two icons.</p></details>
+        <details name="it"><summary>Custom app upload <span class="chev" aria-hidden="true"></span></summary><p>Your Teams admin allows custom app uploading, or publishes Adjourn to the organisation's catalogue. The organiser adds it to a meeting, and consents to its permissions, once.</p></details>
+        <details name="it"><summary>Optimise workspaces <span class="chev" aria-hidden="true"></span></summary><p>Rosters above 350 and participants who joined anonymously are outside what Microsoft's participant API reports, so very large or open meetings count less precisely. Town halls were never going to be ended by a vote.</p></details>
+        <details name="it"><summary>Read the manual <span class="chev" aria-hidden="true"></span></summary><p>The README covers registration, the endpoint, the dev tunnel and the upload, in order. <a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Read it on GitHub</a></p></details>
+      </div>
+      <div class="figure dark"><div><div class="big">1</div><p class="cap">Process. One endpoint. One card. One button.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-neutral" id="plans" aria-labelledby="plans-title">
+  <div class="container">
+    <p class="eyebrow">Products and services</p>
+    <h2 id="plans-title">Find the right Adjourn plan and add-ons for your needs</h2>
+    <div class="tabs" role="tablist" aria-label="Plans">
+      <button role="tab" id="tab-biz" aria-selected="true" aria-controls="panel-biz">Business</button>
+      <button role="tab" id="tab-ind" aria-selected="false" aria-controls="panel-ind">Individuals</button>
+      <button role="tab" id="tab-ent" aria-selected="false" aria-controls="panel-ent">Enterprise</button>
+      <button role="tab" id="tab-edu" aria-selected="false" aria-controls="panel-edu">Education</button>
+    </div>
+
+    <div class="panel show plans-lead" id="panel-biz" role="tabpanel" aria-labelledby="tab-biz">
+      <div class="intro">
+        <p class="eyebrow">Adjourn for small business</p>
+        <h3>Adjourn for small business</h3>
+        <p>Shorten your customer meetings with ending software designed for up to 300 people.</p>
+        <a class="btn" href="#get">Learn more</a>
+      </div>
+      <div class="cards two">
+        <article class="plan"><h4>Adjourn Essentials</h4><p class="price">0 kr. <small>user/month</small></p><p>End meetings by video, chat and phone using an affordable, all-in-one card for up to 300 people.</p><ul><li>One card per meeting</li><li>One vote per person</li><li>Thresholds from 50 to 100 percent</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan"><h4>Adjourn Premium</h4><p class="price">0 kr. <small>user/month</small></p><p>Get extra features that help make endings more personalised, intelligent and protected.<sup><a href="#fn-6" id="r-6">6</a></sup></p><ul><li>Everything in Essentials</li><li>The same file</li><li>A warmer feeling</li></ul><a class="link" href="#get">Learn more</a></article>
+      </div>
+    </div>
+
+    <div class="panel plans-lead" id="panel-ind" role="tabpanel" aria-labelledby="tab-ind">
+      <div class="intro">
+        <p class="eyebrow">Adjourn for individual use</p>
+        <h3>Adjourn for individual use</h3>
+        <p>Plan events, share photos, and leave them early with your friends, family and community.</p>
+        <a class="btn" href="#get">Learn more</a>
+      </div>
+      <div class="cards two">
+        <article class="plan"><h4>Adjourn (free)</h4><p class="price">0 kr.</p><p>Vote to end calls of up to 60 minutes, which is also the point at which you should have.</p><ul><li>Free, like the organiser's time</li><li>No account</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan"><h4>Adjourn Family</h4><p class="price">0 kr. <small>year</small></p><p>Votes for up to six people, who are nonetheless expected at dinner.</p><ul><li>For 1 to 6 people</li><li>Thresholds a parent can set</li></ul><a class="link" href="#get">Learn more</a></article>
+      </div>
+    </div>
+
+    <div class="panel plans-lead" id="panel-ent" role="tabpanel" aria-labelledby="tab-ent">
+      <div class="intro">
+        <p class="eyebrow">Adjourn for enterprise</p>
+        <h3>Adjourn for enterprise</h3>
+        <p>Empower your employees to get more done and transform the way they leave.</p>
+        <a class="btn" href="#get">Learn more</a>
+      </div>
+      <div class="cards two">
+        <article class="plan"><h4>Adjourn Enterprise</h4><p class="price">0 kr. <small>user/month</small></p><p>End meetings for more than 300 people. Microsoft's participant API counts rosters below 350, so bring 349 and a sense of occasion.</p><ul><li>Everything in Premium</li><li>Still the same file</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan"><h4>Adjourn Rooms</h4><p class="price">0 kr. <small>room/month</small></p><p>Conduct meetings and facilitate inclusive endings anywhere you work. The room votes as one. The room usually agrees.</p><ul><li>Hybrid: those in the room may use their phones</li><li>Pro Management: none</li></ul><a class="link" href="#get">Learn more</a></article>
+      </div>
+    </div>
+
+    <div class="panel plans-lead" id="panel-edu" role="tabpanel" aria-labelledby="tab-edu">
+      <div class="intro">
+        <p class="eyebrow">Adjourn for education</p>
+        <h3>Adjourn for education</h3>
+        <p>Make leaving collaborative, for both students and educators.</p>
+        <a class="btn" href="#get">Learn more</a>
+      </div>
+      <div class="cards two">
+        <article class="plan"><h4>Adjourn Education</h4><p class="price">0 kr.</p><p>Students and educators at eligible institutions get Adjourn for free, which is the price everyone else pays too.</p><ul><li>Threshold set by the educator</li><li>Students may vote; the bell still wins</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan"><h4>Adjourn for lectures</h4><p class="price">0 kr.</p><p>Choose from one plan to suit your school's needs.</p><ul><li>One plan</li></ul><a class="link" href="#get">Learn more</a></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-vapor" id="stories" aria-labelledby="stories-title">
+  <div class="container">
+    <p class="eyebrow">Customer stories</p>
+    <h2 id="stories-title">See how customers are leaving with Adjourn</h2>
+    <div class="cards">
+      <article class="story">
+        <span class="meta">Professional services · Denmark</span>
+        <h3>A bureau eliminates 98% of the last ten minutes with Adjourn</h3>
+        <p>A small Danish bureau improved meeting accuracy and efficiency by ending its weekly sync at the point where everyone had stopped listening, saving 40 person-minutes a week and enhancing lunch.<sup><a href="#fn-7" id="r-7">7</a></sup></p>
+        <div class="products"><b>Products</b><span>Adjourn Essentials</span></div>
+        <a class="btn secondary" href="#fn-7">Read the story</a>
+      </article>
+      <article class="story">
+        <span class="meta">Governance · Everywhere</span>
+        <h3>A standing committee unifies its members under one threshold</h3>
+        <p>The committee created a more streamlined member experience by agreeing, for the first time in its history, on something: 67 percent.</p>
+        <div class="products"><b>Products</b><span>Adjourn Premium</span></div>
+        <a class="btn secondary" href="#fn-7">Read the story</a>
+      </article>
+      <article class="story">
+        <span class="meta">Technology · Hybrid</span>
+        <h3>The Thursday all-hands develops an ending in record time</h3>
+        <p>The all-hands, a division of a larger calendar, developed an advanced ending using Adjourn in two days, with a demo that nobody asked to be extended.</p>
+        <div class="products"><b>Products</b><span>Adjourn Rooms</span></div>
+        <a class="btn secondary" href="#fn-7">Read the story</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="research band-neutral" id="research" aria-labelledby="research-title">
+  <div class="container">
+    <p class="eyebrow">Research</p>
+    <h2 id="research-title">Adjourn 2 is in research</h2>
+    <p class="lead muted" style="margin-top:1rem;max-width:46rem">Adjourn asks the organiser to end the meeting. Adjourn 2 asks less politely. Den Frie Vilje Research is evaluating three escalations for meetings whose scheduled end has passed.<sup><a href="#fn-8" id="r-8">8</a></sup></p>
+    <div class="cards">
+      <article class="card">
+        <div class="media" aria-hidden="true"><div class="swell"><i style="--h:20;--d:0"></i><i style="--h:30;--d:.2"></i><i style="--h:45;--d:.4"></i><i style="--h:40;--d:.1"></i><i style="--h:60;--d:.5"></i><i style="--h:55;--d:.3"></i><i style="--h:75;--d:.6"></i><i style="--h:70;--d:.2"></i><i style="--h:85;--d:.7"></i><i style="--h:80;--d:.4"></i><i style="--h:95;--d:.8"></i><i style="--h:100;--d:.3"></i></div></div>
+        <div class="body">
+          <p class="eyebrow">Escalation 1</p>
+          <h3 class="h5">The orchestral swell</h3>
+          <p>At the scheduled end, strings. Each minute overdue, louder. Pioneered at awards ceremonies and conference talks, the swell lets a speaker finish their sentence while making clear that it is their last.</p>
+          <a class="link" href="#fn-8">Hear the research</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="media" aria-hidden="true">
+          <svg class="robot" viewBox="0 0 200 140" fill="none" stroke="#c5cbfa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 120h160"/><path d="M40 120V70l30-30 40 10"/><circle cx="40" cy="70" r="6" fill="#7f85f5" stroke="none"/><circle cx="70" cy="40" r="6" fill="#7f85f5" stroke="none"/><path d="M110 50l14-4 6 12-6 2" /><path d="M118 44l-6-18" stroke="#fff"/><path d="M106 24c0-6 20-6 20 0s-6 4-6 10h-8c0-6-6-4-6-10z" fill="#fff" stroke="#fff"/><path d="M130 36c6 8 14 20 10 40" stroke="#8dc8e8" stroke-dasharray="4 5"/><rect x="120" y="92" width="62" height="28" rx="3" fill="#201f48" stroke="#c5cbfa"/><path d="M120 92l10-28h52l-4 28" fill="#2b2b40" stroke="#c5cbfa"/></svg>
+        </div>
+        <div class="body">
+          <p class="eyebrow">Escalation 2</p>
+          <h3 class="h5">Coffee, delivered</h3>
+          <p>A robotic arm by the organiser's desk, loaded at the start of the meeting with a full cup. At twice the threshold, or ten minutes past the scheduled end, whichever comes first, the arm tips the cup into the organiser's laptop. The meeting ends. The laptop was the company's.</p>
+          <a class="link" href="#fn-8">See the lab</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="media" aria-hidden="true"><div class="lights"><i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i><i style="--d:5"></i><i style="--d:6"></i><i style="--d:7"></i><i style="--d:8"></i><i style="--d:9"></i><i style="--d:10"></i><i style="--d:11"></i><i style="--d:12"></i><i style="--d:13"></i><i style="--d:14"></i><i style="--d:15"></i><i style="--d:16"></i><i style="--d:17"></i></div></div>
+        <div class="body">
+          <p class="eyebrow">Escalation 3</p>
+          <h3 class="h5">Other antics</h3>
+          <p>The lights in the meeting room dim one step per minute overdue. The organiser's chair reclines five degrees. The camera gains a slow zoom. The shared screen acquires a tasteful watermark reading "overrun". None of this ends a meeting, and all of it has, in testing.</p>
+          <a class="link" href="#fn-8">Read the paper</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="start band-fade" id="get" aria-labelledby="get-title">
+  <div class="container">
+    <p class="eyebrow">Get started</p>
+    <h2 id="get-title">Take the next step with democratically ended meetings, built for your work, your passions, and the ideas you're turning into reality, after this.</h2>
+    <div class="cols">
+      <div><h3>For business</h3><p>Shorten your customer meetings with ending software designed for up to 300 people.</p><a class="link" href="#plans">See plans and pricing</a></div>
+      <div><h3>For individuals</h3><p>Grow your evening, stay organised, and leave with clients. Plan events, share photos, and get home.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Try Adjourn for free</a></div>
+      <div><h3>For enterprise</h3><p>Achieve more with Adjourn for more than 300 people, 349 at a time.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Get started</a></div>
+      <div><h3>For IT</h3><p>One Node.js process, one bot registration, one zip to upload. The README is the manual, in order.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Read the README</a></div>
+    </div>
+    <pre class="cmd" aria-label="Install commands">git clone https://github.com/den-frie-vilje/adjourn
+cd adjourn &amp;&amp; pnpm install
+pnpm dev          # the bot, on port 3978
+pnpm package      # appPackage/adjourn.zip, to upload to a meeting</pre>
+  </div>
+</section>
+
+<aside class="notes band-fade" aria-label="Footnotes">
+  <div class="container">
+    <ol>
+      <li id="fn-1">Adjourn asks the organiser to end the meeting, with the count, in a private notification on the meeting stage. Microsoft Teams offers no app a way to end a meeting for everyone; the organiser's finger remains the final instance. <a href="#r-1" aria-label="Back to reference 1">↩</a></li>
+      <li id="fn-2">The simulation runs Adjourn's rule on made-up numbers: four of seven carries at the default threshold of 50 percent. It does not end any meeting you are in. Press it anyway. <a href="#r-2" aria-label="Back to reference 2">↩</a></li>
+      <li id="fn-3">Den Frie Vilje, Magic Quadrant for Leaving as a Service, Worldwide, Ole Kristensen, 27 October 2026. Den Frie Vilje does not endorse any company, vendor, product or service depicted in its publications, except this one. This graphic was published by Den Frie Vilje as part of a larger lunch and should be evaluated in the context of the entire lunch. Den Frie Vilje disclaims all warranties, expressed or implied, with respect to this publication, including any warranties of merchantability or fitness for a particular meeting. <a href="#r-3" aria-label="Back to reference 3">↩</a></li>
+      <li id="fn-4">Presence is read from Microsoft's meeting participant API, one chat member at a time, at each vote. The API reports rosters below 350 and participants signed in to the tenant; anonymous guests are not counted in either direction. <a href="#r-4" aria-label="Back to reference 4">↩</a></li>
+      <li id="fn-5">Checked against Microsoft Graph's cloud communications API, the Teams JavaScript client library and the Bot Framework meeting APIs on 27 October 2026: a bot can hang up its own leg, remove a participant one at a time with a tenant administrator's allow-listing, and notify, but not end. Zoom and Google Meet have an end-meeting call. Teams has a chair. <a href="#r-5" aria-label="Back to reference 5">↩</a></li>
+      <li id="fn-6">Adjourn Premium is the same software as Adjourn Essentials. The extra features are personalised in the sense that they are yours to imagine. <a href="#r-6" aria-label="Back to reference 6">↩</a></li>
+      <li id="fn-7">The customer stories on this page describe no actual customers. The bureau is us, and the 98 percent was measured on the one meeting we remembered to time. <a href="#r-7" aria-label="Back to reference 7">↩</a></li>
+      <li id="fn-8">Adjourn 2 is in research in the sense that it has been discussed. Playing audio into a Teams meeting requires Microsoft's real-time media platform for bots, which requires a Windows Server, C# and a developer preview; the robotic arm requires a robotic arm. Neither is in a tenant near you. The lights have been tested on one lamp. <a href="#r-8" aria-label="Back to reference 8">↩</a></li>
+    </ol>
+    <p id="legal">This page parodies a register, not a company. Adjourn is not affiliated with, endorsed by or scheduled by Microsoft. Microsoft, Microsoft Teams, Microsoft 365 and Copilot are trademarks of the Microsoft group of companies, and are named here only to say what Adjourn works with. Zoom is a trademark of Zoom Video Communications, Inc., and Google Meet of Google LLC. Magic Quadrant is a trademark of Gartner, Inc., who did not rate anyone's ability to leave. There are no ads on this page, and no cookies.</p>
+  </div>
+</aside>
+
+<div class="follow">
+  <div class="container">
+    <h2>Follow Adjourn</h2>
+    <a href="https://github.com/den-frie-vilje/adjourn" aria-label="Adjourn on GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .2a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.4.7 0-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.6 7.6 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.5 1.1.2 1.9.1 2.1.5.5.8 1.2.8 2.1 0 3.1-1.9 3.8-3.6 4 .3.3.6.8.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 .2z"/></svg></a>
+    <a href="https://denfrievilje.dk" aria-label="Den Frie Vilje"><svg aria-hidden="true"><use href="#ring"/></svg></a>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="fcols">
+    <div><h4>What's new</h4><ul><li><a href="https://github.com/den-frie-vilje/adjourn/releases">Adjourn 0.1.0</a></li><li><a href="#research">Adjourn 2</a></li><li><a href="https://den-frie-vilje.github.io/hotfix/">Hotfix</a></li><li><a href="https://den-frie-vilje.github.io/boomerblaster/">BoomerBlaster</a></li></ul></div>
+    <div><h4>Adjourn Store</h4><ul><li><a href="#get">Download Adjourn</a></li><li><a href="#plans">Plans and pricing</a></li><li><a href="#plans">Adjourn Premium</a></li><li><a href="#fn-6">Why buy from Den Frie Vilje</a></li></ul></div>
+    <div><h4>Education</h4><ul><li><a href="#plans">Adjourn for Education</a></li><li><a href="#solutions">How Adjourn counts</a></li><li><a href="#fn-5">Why the organiser presses the button</a></li><li><a href="https://en.wikipedia.org/wiki/Adjournment">Adjournment</a></li></ul></div>
+    <div><h4>Business</h4><ul><li><a href="https://denfrievilje.dk">Den Frie Vilje ApS</a></li><li><a href="#plans">Adjourn for small business</a></li><li><a href="#plans">Adjourn Enterprise</a></li><li><a href="#stories">Customer stories</a></li></ul></div>
+    <div><h4>Developer &amp; IT</h4><ul><li><a href="https://github.com/den-frie-vilje/adjourn">Source code</a></li><li><a href="https://github.com/den-frie-vilje/adjourn#readme">Documentation</a></li><li><a href="https://github.com/den-frie-vilje/adjourn/blob/main/appPackage/manifest.json">App manifest</a></li><li><a href="https://github.com/den-frie-vilje/adjourn/issues">Tech community</a></li></ul></div>
+    <div><h4>Company</h4><ul><li><a href="https://denfrievilje.dk">About Den Frie Vilje</a></li><li><a href="https://github.com/den-frie-vilje">Our other software</a></li><li><a href="https://github.com/den-frie-vilje/adjourn#privacy">Privacy at Den Frie Vilje</a></li><li><a href="https://github.com/den-frie-vilje/adjourn/issues">Contact us</a></li></ul></div>
+  </div>
+  <div class="legal">
+    <span class="lang"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M1.5 8h13M8 1.5c2 2 2 11 0 13M8 1.5c-2 2-2 11 0 13"/></svg>English (Denmark)</span>
+    <a href="#legal">Your Privacy Choices</a>
+    <a href="#legal">Consumer Health Privacy</a>
+    <a href="#top">Sitemap</a>
+    <a href="https://github.com/den-frie-vilje/adjourn/issues">Contact Den Frie Vilje</a>
+    <a href="https://github.com/den-frie-vilje/adjourn#privacy">Privacy</a>
+    <a href="https://github.com/den-frie-vilje/adjourn/blob/main/LICENSE">Terms of use</a>
+    <a href="#legal">Trademarks</a>
+    <a href="#legal">About our ads</a>
+    <span>© Den Frie Vilje 2026</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  // The hero demo: the real rule on made-up numbers. 7 present, threshold 50%, so it takes 4.
+  const present = 7, needed = 4;
+  let votes = 3, voted = false;
+  const status = document.getElementById("demo-status"), meter = document.getElementById("demo-meter"), bar = meter.firstElementChild;
+  const btn = document.getElementById("demo-vote"), toast = document.getElementById("demo-toast"), org = document.getElementById("demo-org");
+  let toastTimer;
+  const say = (text) => { toast.textContent = text; toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("show"), 2200); };
+  btn.addEventListener("click", () => {
+    if (voted) { say("You have already voted."); return; }
+    voted = true; votes += 1;
+    bar.style.width = Math.round(100 * votes / present) + "%";
+    if (votes >= needed) {
+      status.textContent = "The motion carried. The organiser has been asked to end the meeting.";
+      meter.classList.add("carried"); btn.disabled = true; btn.textContent = "Motion carried";
+      say("Your vote carried the motion.");
+      setTimeout(() => org.classList.add("show"), 900);
+    } else {
+      status.textContent = votes + " of " + present + " present have voted to end the meeting. It takes " + needed + ".";
+      say("Your vote is counted.");
+    }
+  });
+
+  // Ask Den Frie Vilje: every question has the same answer.
+  const answers = {
+    benefits: "Adjourn ends meetings. It does so anonymously, once per person, at a threshold the organiser sets, and by asking the organiser rather than pulling the plug. Its other benefits are the afternoon.",
+    quote: "0 kr. per user per month, billed never. For a custom quote, pick a number you like; it will be that.",
+    free: "When enough of you want it to. Press the button on the card and find out."
+  };
+  const answer = document.getElementById("answer");
+  const show = (key) => { answer.textContent = answers[key]; answer.classList.add("show"); };
+  document.querySelectorAll("[data-ask]").forEach((b) => b.addEventListener("click", () => show(b.dataset.ask)));
+  document.getElementById("askform").addEventListener("submit", (e) => { e.preventDefault(); show("free"); });
+
+  // Tabs, two sets, after the WAI-ARIA tabs pattern: arrow keys move, Home and End jump.
+  document.querySelectorAll('[role="tablist"]').forEach((list) => {
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    const select = (tab) => {
+      tabs.forEach((t) => { const on = t === tab; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; document.getElementById(t.getAttribute("aria-controls")).classList.toggle("show", on); });
+      tab.focus();
+    };
+    tabs.forEach((t, i) => {
+      t.tabIndex = t.getAttribute("aria-selected") === "true" ? 0 : -1;
+      t.addEventListener("click", () => select(t));
+      t.addEventListener("keydown", (e) => {
+        const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (next === undefined) return;
+        e.preventDefault(); select(tabs[(next + tabs.length) % tabs.length]);
+      });
+    });
+  });
+
+  // One open menu at a time in the header.
+  document.querySelectorAll(".uhf details").forEach((d) => d.addEventListener("toggle", () => { if (d.open) document.querySelectorAll(".uhf details[open]").forEach((o) => { if (o !== d) o.open = false; }); }));
+})();
+</script>
+</body>
+</html>

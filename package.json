@@ -1,0 +1,38 @@
+{
+  "name": "adjourn",
+  "version": "0.1.0",
+  "description": "A Microsoft Teams app that ends the meeting when enough of the room has voted to, anonymously.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/den-frie-vilje/adjourn.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "start": "node dist/app.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test --experimental-strip-types src/*.test.ts",
+    "package": "sh scripts/package.sh"
+  },
+  "dependencies": {
+    "@microsoft/teams.api": "2.1.1",
+    "@microsoft/teams.apps": "2.1.1",
+    "@microsoft/teams.cards": "2.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

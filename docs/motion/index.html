@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion to adjourn</title>
+<meta name="robots" content="noindex">
+<style>
+  body { margin: 0; font: 400 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: #242424; background: #fff; padding: 24px; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 8px; }
+  p { margin: 0 0 12px; }
+  .count { font-size: 44px; font-weight: 600; letter-spacing: -.02em; color: #5d5bd4; line-height: 1.1; margin: 10px 0 14px; font-variant-numeric: tabular-nums; }
+  button { font: inherit; font-weight: 600; color: #fff; background: #5d5bd4; border: 0; border-radius: 4px; padding: 8px 16px; cursor: pointer; }
+  button:hover { background: #4f52b2; }
+  @media (prefers-color-scheme: dark) { body { color: #fff; background: #292929; } .count { color: #7f85f5; } }
+</style>
+</head>
+<body>
+<h1>The room has voted to end the meeting.</h1>
+<p class="count" id="count"></p>
+<p>Select the arrow next to <b>Leave</b>, then <b>End meeting</b>.</p>
+<button type="button" id="ok">Got it</button>
+<script src="https://res.cdn.office.net/teams-js/2.58.0/js/MicrosoftTeams.min.js"></script>
+<script>
+  const q = new URLSearchParams(location.search);
+  const votes = Number(q.get("votes")), present = Number(q.get("present"));
+  if (votes > 0 && present > 0) document.getElementById("count").textContent = votes + " of " + present;
+  const close = () => microsoftTeams.dialog.url.submit();
+  document.getElementById("ok").addEventListener("click", close);
+  microsoftTeams.app.initialize().catch(() => { document.getElementById("ok").hidden = true; });
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.19",
+  "version": "0.1.0",
+  "id": "${{CLIENT_ID}}",
+  "developer": {
+    "name": "Den Frie Vilje",
+    "websiteUrl": "https://den-frie-vilje.github.io/adjourn/",
+    "privacyUrl": "https://github.com/den-frie-vilje/adjourn#privacy",
+    "termsOfUseUrl": "https://github.com/den-frie-vilje/adjourn/blob/main/LICENSE"
+  },
+  "name": { "short": "Adjourn", "full": "Adjourn by Den Frie Vilje" },
+  "description": {
+    "short": "Ends the meeting when enough of the room has voted to.",
+    "full": "Adjourn posts one card in the meeting chat. Anyone in the meeting can vote to end it, anonymously and once. When the share of those present passes the threshold, the organiser is asked to end the meeting."
+  },
+  "icons": { "color": "color.png", "outline": "outline.png" },
+  "accentColor": "#5D5BD4",
+  "bots": [
+    { "botId": "${{CLIENT_ID}}", "scopes": ["groupChat"], "isNotificationOnly": false, "supportsFiles": false }
+  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": ["den-frie-vilje.github.io", "${{BOT_DOMAIN}}"],
+  "webApplicationInfo": { "id": "${{CLIENT_ID}}", "resource": "https://RscBasedStoreApp" },
+  "authorization": {
+    "permissions": {
+      "resourceSpecific": [
+        { "name": "OnlineMeeting.ReadBasic.Chat", "type": "Application" },
+        { "name": "OnlineMeetingParticipant.Read.Chat", "type": "Application" },
+        { "name": "OnlineMeetingNotification.Send.Chat", "type": "Application" },
+        { "name": "ChatMember.Read.Chat", "type": "Application" }
+      ]
+    }
+  }
+}
