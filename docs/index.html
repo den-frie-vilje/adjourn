@@ -708,16 +708,31 @@ pnpm package      # appPackage/adjourn.zip, to upload to a meeting</pre>
     }
   });
 
-  // Ask Den Frie Vilje: every question has the same answer.
-  const answers = {
-    benefits: "Adjourn ends meetings. It does so anonymously, once per person, at a threshold the organiser sets, and by asking the organiser rather than pulling the plug. Its other benefits are the afternoon.",
-    quote: "0 kr. per user per month, billed never. For a custom quote, pick a number you like; it will be that.",
-    free: "When enough of you want it to. Press the button on the card and find out."
-  };
+  // Ask Den Frie Vilje: a dozen answers matched on keywords, and an honest one when nothing matches.
+  const answers = [
+    [/benefit|why|point|good/, "Adjourn ends meetings. It does so anonymously, once per person, at a threshold the organiser sets, and by asking the organiser rather than pulling the plug. Its other benefits are the afternoon."],
+    [/quote|price|cost|how much|pay|licen|kr|free/, "0 kr. per user per month, billed never. For a custom quote, pick a number you like; it will be that."],
+    [/anonym|private|privacy|who voted|see who|know who|secret|track/, "Nobody sees who voted, Adjourn included. A vote is a private button press; Adjourn keeps a salted hash of the voter for the length of the meeting, only to refuse a second one, and the card shows counts."],
+    [/twice|again|second|more than once|change my|withdraw|undo/, "Once. A second press is answered, privately, with \"You have already voted\". There is no withdrawing a vote, as there is no un-leaving a room."],
+    [/threshold|percent|%|majority|how many|enough|half/, "Half of those present, by default. The organiser can set 50, 67, 75 or 100 percent from the card. Votes are counted against who is in the meeting at that moment, not the invitation list."],
+    [/organi[sz]er|host|chair|end for everyone|actually end|really end|kick|remove|hang up|force/, "Teams gives no app a way to end a meeting for everyone, so the organiser presses the button. Adjourn sends them a private notification with the count and the two clicks it takes. It has not failed yet, in the sense that it has not been asked to."],
+    [/install|set ?up|admin|tenant|upload|sideload|deploy|register|azure|bot|permission|rsc|manifest/, "One Node.js process, one bot registration, one zip to upload to the meeting. The README on GitHub has the steps in order, and the permissions Adjourn asks for are the four it uses."],
+    [/zoom|google|meet|slack|webex|discord/, "Zoom and Google Meet have an API that ends a meeting for everyone. Microsoft Teams has a chair. Adjourn is for Teams, which is why it asks."],
+    [/adjourn 2|version 2|v2|robot|coffee|orchestra|swell|music|string|light|chair|next/, "Adjourn 2 is in research. The orchestral swell, the coffee delivered into the organiser's laptop and the dimming lights have been discussed, which is the stage research reaches before a robotic arm is bought."],
+    [/premium|enterprise|family|plan|edition|difference between/, "Every plan is the same file, at the same price. Premium adds a warmer feeling. Enterprise adds 49 people, because the participant API stops counting at 350."],
+    [/when|end|over|finish|long|time|late|overrun|stop/, "When enough of you want it to. Press the button on the card and find out. Until then, nobody can tell, which is the problem Adjourn exists for."],
+    [/copilot|ai|agent|summar/, "Adjourn uses no AI. It counts. The nearest it comes to a summary is \"4 of 7\"."],
+    [/teams|microsoft/, "Adjourn works in Microsoft Teams meetings and is not made by Microsoft, who had nothing to do with it and would say so."],
+    [/hello|hi\b|hey|thanks|thank you/, "Hello. This meeting could still end. Ask me how."]
+  ];
+  const fallback = "I don't know that one, and I would rather say so than guess. Try \"How anonymous is it?\", \"What does it cost?\" or \"Does it really end the meeting?\"";
+  const chips = { benefits: "What are the key benefits of Adjourn?", quote: "Get a custom quote" };
+  const reply = (q) => (answers.find(([re]) => re.test(q.toLowerCase())) || [null, fallback])[1];
   const answer = document.getElementById("answer");
-  const show = (key) => { answer.textContent = answers[key]; answer.classList.add("show"); };
-  document.querySelectorAll("[data-ask]").forEach((b) => b.addEventListener("click", () => show(b.dataset.ask)));
-  document.getElementById("askform").addEventListener("submit", (e) => { e.preventDefault(); show("free"); });
+  const show = (q) => { answer.textContent = reply(q); answer.classList.add("show"); };
+  document.querySelectorAll("[data-ask]").forEach((b) => b.addEventListener("click", () => show(chips[b.dataset.ask])));
+  document.getElementById("askform").addEventListener("submit", (e) => { e.preventDefault(); const q = document.getElementById("ask").value.trim(); if (q) show(q); });
+  window.askAdjourn = reply;
 
   // Tabs, two sets, after the WAI-ARIA tabs pattern: arrow keys move, Home and End jump.
   document.querySelectorAll('[role="tablist"]').forEach((list) => {
