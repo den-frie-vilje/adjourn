@@ -357,7 +357,21 @@
       </div>
       <p class="fine small">Free. For meetings in Microsoft Teams. Nothing to install on anyone's machine.</p>
     </div>
-    <div class="footage mv"><img src="img/hero-call.jpg" width="1264" height="848" fetchpriority="high" alt="Four colleagues around a table in a video meeting on a laptop; the woman in front glances at her watch with a patient smile"></div>
+    <div class="stage mv" aria-label="A simulated vote on the Adjourn card">
+      <div class="msg">
+      <div class="who"><i><svg aria-hidden="true"><use href="#ring"/></svg></i>Adjourn · 14:32</div>
+      <div class="acard">
+          <b>Motion to adjourn</b>
+          <p id="demo-status">3 of 7 present have voted to end the meeting. It takes 4.</p>
+          <small>Anonymous. One vote each.</small>
+          <div class="meter" id="demo-meter"><i style="width:43%"></i></div>
+          <button class="vote" type="button" id="demo-vote">Vote to end the meeting</button>
+    </div>
+    </div>
+      <div class="toast" id="demo-toast" role="status" aria-live="polite"></div>
+      <div class="orgnote" id="demo-org" aria-live="polite"><b>Motion to adjourn</b>The room has voted to end the meeting. 4 of 7.<span>Select the arrow next to Leave, then End meeting.</span></div>
+      <p class="legend">Simulated in your browser. Press the button.<sup><a href="#fn-2" id="r-2">2</a></sup></p>
+    </div>
   </div>
 </section>
 
@@ -446,21 +460,7 @@
         <details name="vote"><summary>Count those present <span class="chev" aria-hidden="true"></span></summary><p>Votes are measured against the people in the meeting at that moment, not the invitation list. Someone who voted and then left stops counting. Someone who joins late raises the bar.<sup><a href="#fn-4" id="r-4">4</a></sup></p></details>
         <details name="vote"><summary>Turn meetings into action <span class="chev" aria-hidden="true"></span></summary><p>The action is leaving. Adjourn keeps work moving forward by moving it out of the meeting and into the afternoon, where it was going to happen anyway.</p></details>
       </div>
-      <div class="stage mv" aria-label="A simulated vote on the Adjourn card">
-        <div class="msg">
-        <div class="who"><i><svg aria-hidden="true"><use href="#ring"/></svg></i>Adjourn · 14:32</div>
-        <div class="acard">
-          <b>Motion to adjourn</b>
-          <p id="demo-status">3 of 7 present have voted to end the meeting. It takes 4.</p>
-          <small>Anonymous. One vote each.</small>
-          <div class="meter" id="demo-meter"><i style="width:43%"></i></div>
-          <button class="vote" type="button" id="demo-vote">Vote to end the meeting</button>
-        </div>
-        </div>
-        <div class="toast" id="demo-toast" role="status" aria-live="polite"></div>
-        <div class="orgnote" id="demo-org" aria-live="polite"><b>Motion to adjourn</b>The room has voted to end the meeting. 4 of 7.<span>Select the arrow next to Leave, then End meeting.</span></div>
-        <p class="legend">Simulated in your browser. Press the button.<sup><a href="#fn-2" id="r-2">2</a></sup></p>
-      </div>
+      <div class="footage mv"><img src="img/hero-call.jpg" width="1264" height="848" loading="lazy" decoding="async" alt="Four colleagues around a table in a video meeting on a laptop; the woman in front glances at her watch with a patient smile"></div>
     </div>
 
     <div class="panel" id="panel-carry" role="tabpanel" aria-labelledby="tab-carry">
