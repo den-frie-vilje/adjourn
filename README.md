@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="The Adjourn mark: a ring, half filled" src="appPackage/color.png" width="96">
+  <img alt="Four colleagues in a video meeting, every one of them rolling their eyes at the ceiling, under the name Adjourn" src="docs/img/readme-hero.jpg" width="880">
 </p>
 
 <h1 align="center">Adjourn</h1>
@@ -107,7 +107,7 @@ pnpm test
 pnpm build
 ```
 
-The product page is `docs/index.html`, served by GitHub Pages; `scripts/og.sh` renders its social image.
+The product page is `docs/index.html`, served by GitHub Pages; `scripts/og.sh` renders its social image and this README's hero from `docs/og.html` and `docs/readme-hero.html`.
 
 ## Licence
 
