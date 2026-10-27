@@ -208,12 +208,6 @@
   .prompt { background: var(--brand-deep); color: #fff; padding: 1.25rem; }
   .prompt .bubble { background: rgba(255,255,255,.12); border-radius: 12px; padding: .75rem 1rem; font-size: .875rem; line-height: 1.25rem; letter-spacing: 0; width: 100%; }
   .prompt .bubble + .bubble { background: #fff; color: var(--ink); margin-top: .6rem; }
-  .threads { background: var(--lilac-100); padding: 1.25rem; }
-  .threads .row { display: flex; gap: .5rem; align-items: center; width: 100%; }
-  .threads .row + .row { margin-top: .5rem; }
-  .threads .row i { width: 22px; height: 22px; border-radius: 50%; background: var(--brand); opacity: .75; flex: none; }
-  .threads .row span { height: 10px; border-radius: 5px; background: #fff; flex: 1; }
-  .threads .row span.short { flex: .45; }
 
   /* solutions: a tab row, then an exclusive accordion left and a picture right, after "Simple, smart, secure" */
   .tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.5rem; border-bottom: 1px solid var(--rule); }
@@ -251,7 +245,12 @@
   .plans-lead .cards { margin-top: 0; }
 
   /* customer stories: a carousel in spirit, three stories side by side */
-  .story { background: var(--card); border-radius: var(--radius-l); box-shadow: var(--depth-4); padding: 1.5rem; display: flex; flex-direction: column; gap: .75rem; }
+  .story { background: var(--card); border-radius: var(--radius-l); box-shadow: var(--depth-4); padding: .5rem .5rem 1.5rem; display: flex; flex-direction: column; gap: .75rem; transition: box-shadow .2s; }
+  .story:hover { box-shadow: var(--depth-8); }
+  .story .cover { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: calc(var(--radius-l) - .5rem); margin-bottom: .5rem; }
+  .story > :not(.cover) { margin-left: 1rem; margin-right: 1rem; }
+  .card .media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.2,.15,1); }
+  .card:hover .media img { transform: scale(1.03); }
   .story .meta { font-size: .875rem; color: var(--grey); }
   .story h3 { font-size: 1.25rem; line-height: 1.75rem; }
   .story p { color: var(--ink-2); flex: 1; }
@@ -264,7 +263,6 @@
   .swell { width: 100%; height: 100%; display: flex; align-items: flex-end; gap: 3px; padding: 1.25rem; }
   .swell i { flex: 1; background: linear-gradient(180deg, #c5b4e3, #7f85f5); border-radius: 2px 2px 0 0; height: calc(var(--h) * 1%); animation: sway 2.2s ease-in-out infinite alternate; animation-delay: calc(var(--d) * 1s); }
   @keyframes sway { to { height: calc(var(--h) * 1.35%); } }
-  .robot { width: 72%; height: auto; }
   .lights { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 1.25rem; }
   .lights i { border-radius: 3px; background: #fde300; opacity: .9; animation: dim 3s ease-in-out infinite; animation-delay: calc(var(--d) * .35s); }
   @keyframes dim { 50% { opacity: .08; } }
@@ -359,6 +357,7 @@
       <p class="fine small">Free. For meetings in Microsoft Teams. Nothing to install on anyone's machine.</p>
     </div>
     <div class="stage" aria-label="A simulated vote on the Adjourn card">
+      <img src="img/hero-call.jpg" width="1264" height="848" fetchpriority="high" alt="Four colleagues around a table in a video meeting on a laptop; the woman in front glances at her watch with a patient smile">
       <div class="msg glass mv">
         <div class="who"><i><svg aria-hidden="true"><use href="#ring"/></svg></i>Adjourn · 14:32</div>
         <div class="acard">
@@ -411,9 +410,7 @@
     <h2 id="news-title">Discover what's happening with Adjourn</h2>
     <div class="cards">
       <article class="card mv">
-        <div class="media threads" aria-hidden="true">
-          <div class="row"><i></i><span></span></div><div class="row"><i></i><span class="short"></span></div><div class="row"><i></i><span></span></div><div class="row"><i style="background:#107c10"></i><span class="short" style="background:#107c10;opacity:.6"></span></div>
-        </div>
+        <div class="media"><img src="img/laptop-closing.jpg" width="1264" height="848" loading="lazy" decoding="async" alt="A man at a desk by a window gently closing his laptop, a coffee cup beside it"></div>
         <div class="body">
           <h3 class="h5">From Agenda to Exit: Adjourn Features That Boost Everyone's Afternoon</h3>
           <p>Organisations want to leave faster and smarter. Guided by customer feedback, Adjourn is adding one card, one button and one threshold, and then stopping.</p>
@@ -569,6 +566,7 @@
     <h2 id="stories-title">See how customers are leaving with Adjourn</h2>
     <div class="cards">
       <article class="story mv">
+        <img class="cover" src="img/empty-room.jpg" width="1264" height="848" loading="lazy" decoding="async" alt="An empty sunlit meeting room, chairs pushed in, one cup and a closed notebook left on the table">
         <span class="meta">Professional services · Denmark</span>
         <h3>A bureau eliminates 98% of the last ten minutes with Adjourn</h3>
         <p>A small Danish bureau improved meeting accuracy and efficiency by ending its weekly sync at the point where everyone had stopped listening, saving 40 person-minutes a week and enhancing lunch.<sup><a href="#fn-7" id="r-7">7</a></sup></p>
@@ -576,6 +574,7 @@
         <a class="btn secondary" href="#fn-7">Read the story</a>
       </article>
       <article class="story mv">
+        <img class="cover" src="img/committee.jpg" width="1264" height="848" loading="lazy" decoding="async" alt="Six people around a boardroom table all raising a hand at the same moment">
         <span class="meta">Governance · Everywhere</span>
         <h3>A standing committee unifies its members under one threshold</h3>
         <p>The committee created a more streamlined member experience by agreeing, for the first time in its history, on something: 67 percent.</p>
@@ -583,6 +582,7 @@
         <a class="btn secondary" href="#fn-7">Read the story</a>
       </article>
       <article class="story mv">
+        <img class="cover" src="img/leaving.jpg" width="1264" height="848" loading="lazy" decoding="async" alt="Five colleagues walking out of a glass meeting room together, chatting, laptops under their arms">
         <span class="meta">Technology · Hybrid</span>
         <h3>The Thursday all-hands develops an ending in record time</h3>
         <p>The all-hands, a division of a larger calendar, developed an advanced ending using Adjourn in two days, with a demo that nobody asked to be extended.</p>
@@ -609,9 +609,7 @@
         </div>
       </article>
       <article class="card mv">
-        <div class="media" aria-hidden="true">
-          <svg class="robot" viewBox="0 0 200 140" fill="none" stroke="#c5cbfa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 120h160"/><path d="M40 120V70l30-30 40 10"/><circle cx="40" cy="70" r="6" fill="#7f85f5" stroke="none"/><circle cx="70" cy="40" r="6" fill="#7f85f5" stroke="none"/><path d="M110 50l14-4 6 12-6 2" /><path d="M118 44l-6-18" stroke="#fff"/><path d="M106 24c0-6 20-6 20 0s-6 4-6 10h-8c0-6-6-4-6-10z" fill="#fff" stroke="#fff"/><path d="M130 36c6 8 14 20 10 40" stroke="#8dc8e8" stroke-dasharray="4 5"/><rect x="120" y="92" width="62" height="28" rx="3" fill="#201f48" stroke="#c5cbfa"/><path d="M120 92l10-28h52l-4 28" fill="#2b2b40" stroke="#c5cbfa"/></svg>
-        </div>
+        <div class="media"><img src="img/robot-coffee.jpg" width="1264" height="848" loading="lazy" decoding="async" alt="A small white robotic arm holding a full coffee cup tilted over the keyboard of an open laptop"></div>
         <div class="body">
           <p class="eyebrow">Escalation 2</p>
           <h3 class="h5">Coffee, delivered</h3>
@@ -623,7 +621,7 @@
         <div class="media" aria-hidden="true"><div class="lights"><i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i><i style="--d:5"></i><i style="--d:6"></i><i style="--d:7"></i><i style="--d:8"></i><i style="--d:9"></i><i style="--d:10"></i><i style="--d:11"></i><i style="--d:12"></i><i style="--d:13"></i><i style="--d:14"></i><i style="--d:15"></i><i style="--d:16"></i><i style="--d:17"></i></div></div>
         <div class="body">
           <p class="eyebrow">Escalation 3</p>
-          <h3 class="h5">Other antics</h3>
+          <h3 class="h5">The room joins in</h3>
           <p>The lights in the meeting room dim one step per minute overdue. The organiser's chair reclines five degrees. The camera gains a slow zoom. The shared screen acquires a tasteful watermark reading "overrun". None of this ends a meeting, and all of it has, in testing.</p>
           <a class="link" href="#fn-8">Read the paper</a>
         </div>
@@ -661,7 +659,7 @@ pnpm package      # appPackage/adjourn.zip, to upload to a meeting</pre>
       <li id="fn-7">The customer stories on this page describe no actual customers. The bureau is us, and the 98 percent was measured on the one meeting we remembered to time. <a href="#r-7" aria-label="Back to reference 7">↩</a></li>
       <li id="fn-8">Adjourn 2 is in research in the sense that it has been discussed. Playing audio into a Teams meeting requires Microsoft's real-time media platform for bots, which requires a Windows Server, C# and a developer preview; the robotic arm requires a robotic arm. Neither is in a tenant near you. The lights have been tested on one lamp. <a href="#r-8" aria-label="Back to reference 8">↩</a></li>
     </ol>
-    <p id="legal">This page parodies a register, not a company. Adjourn is not affiliated with, endorsed by or scheduled by Microsoft. Microsoft, Microsoft Teams, Microsoft 365 and Copilot are trademarks of the Microsoft group of companies, and are named here only to say what Adjourn works with. Zoom is a trademark of Zoom Video Communications, Inc., and Google Meet of Google LLC. Magic Quadrant is a trademark of Gartner, Inc., who did not rate anyone's ability to leave. There are no ads on this page, and no cookies.</p>
+    <p id="legal">This page parodies a register, not a company. Adjourn is not affiliated with, endorsed by or scheduled by Microsoft. Microsoft, Microsoft Teams, Microsoft 365 and Copilot are trademarks of the Microsoft group of companies, and are named here only to say what Adjourn works with. Zoom is a trademark of Zoom Video Communications, Inc., and Google Meet of Google LLC. Magic Quadrant is a trademark of Gartner, Inc., who did not rate anyone's ability to leave. The photographs on this page were generated with an image model; nobody pictured exists, the robot included. There are no ads on this page, and no cookies.</p>
   </div>
 </aside>
 
