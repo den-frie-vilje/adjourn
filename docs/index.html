@@ -77,11 +77,13 @@
 
   /* buttons and links, as measured: 2px transparent border, .5rem × 1rem, 600 at .9375rem, .5rem radius */
   .btn { display: inline-flex; align-items: center; gap: .5rem; border: 2px solid transparent; padding: .5rem 1rem; border-radius: var(--radius-s); font-weight: 600; font-size: .9375rem; line-height: 1.375rem; letter-spacing: -.02em; text-decoration: none; color: #fff; background: var(--brand); transition: background .15s; white-space: nowrap; }
-  .btn:hover { background: var(--brand-h); }
+  .btn { transition: box-shadow .2s cubic-bezier(.2,.2,.15,1), background-color .2s; }
+  .btn:hover { background: var(--brand-h); box-shadow: rgba(0,0,0,.13) 0 .125rem .25rem, rgba(0,0,0,.11) 0 0 .0625rem; background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)); }
   .btn.secondary { background: transparent; color: var(--brand-dark); border-color: var(--brand-dark); }
   .btn.secondary:hover { background: rgba(93, 91, 212, .06); }
   .link { display: inline-flex; align-items: center; gap: .5rem; color: var(--brand-dark); font-weight: 600; font-size: .875rem; line-height: 1.25rem; text-decoration: none; }
-  .link::after { content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 1.5px 1.5px 0 0; transform: rotate(45deg); flex: none; }
+  .link::after { content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 1.5px 1.5px 0 0; transform: rotate(45deg); flex: none; transition: transform .2s cubic-bezier(.2,.2,.15,1); }
+  .link:hover::after { transform: translate(.25em, 0) rotate(45deg); }
   .link:hover { text-decoration: underline; }
 
   /* the global header, after the 54px white uhf bar: brand left, a pipe, the site name, links right */
@@ -137,7 +139,10 @@
 
   /* the card, drawn as Adjourn posts it, on a stage, with a simulated vote */
   .stage { position: relative; border-radius: var(--radius-l); background: linear-gradient(131deg, #cbe6f4 0%, #8dc8e8 50.25%, #c5b4e3 100%); padding: clamp(1.25rem, 5vw, 3.5rem); display: grid; place-items: center; min-height: 380px; overflow: hidden; }
+  .stage > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: drift 24s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: scale(1.04) translate(-1%, 0); } to { transform: scale(1.1) translate(1%, -1%); } }
   .stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 60% at 70% 20%, rgba(255,255,255,.55), transparent 70%); pointer-events: none; }
+  .glass { position: relative; border-radius: 16px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.1); -webkit-backdrop-filter: blur(80px); backdrop-filter: blur(80px); padding: clamp(.75rem, 2vw, 1.25rem); }
   .msg { position: relative; width: min(100%, 420px); }
   .msg .who { display: flex; align-items: center; gap: .5rem; font-size: .75rem; color: var(--ink-2); margin-bottom: .4rem; letter-spacing: 0; }
   .msg .who i { width: 24px; height: 24px; border-radius: 6px; background: var(--brand); display: grid; place-items: center; }
@@ -173,6 +178,15 @@
   .answer { max-width: 760px; margin: 1.25rem auto 0; text-align: left; background: #fff; border-radius: var(--radius-s); box-shadow: var(--depth-4); padding: 1rem 1.25rem; display: none; }
   .answer.show { display: block; animation: rise .3s ease-out; }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  /* entrances, as the Teams page does them: media slides up 100px, copy rises 60px, .8s ease-in-out, once */
+  @keyframes slide-up { from { opacity: 0; transform: translateY(100px); } }
+  @keyframes fade-in-base { from { opacity: 0; transform: translateY(60px); } }
+  .js .mv, .js .cp { opacity: 0; }
+  .js .mv.in { opacity: 1; animation: slide-up .8s ease-in-out both; }
+  .js .cp.in { opacity: 1; animation: fade-in-base .8s ease-in-out both; }
+  .js .cards .mv.in:nth-child(2), .js .cols .cp.in:nth-child(2) { animation-delay: .12s; }
+  .js .cards .mv.in:nth-child(3), .js .cols .cp.in:nth-child(3) { animation-delay: .24s; }
+  .js .cols .cp.in:nth-child(4) { animation-delay: .36s; }
 
   /* cards, as measured: card background, depth-4, radius-l, 1rem padding, media on top with .5rem padding */
   .cards { display: grid; grid-template-columns: 1fr; gap: var(--gap); margin-top: 2rem; }
@@ -335,7 +349,7 @@
 
 <section class="hero band-neutral" id="top" aria-labelledby="hero-title">
   <div class="container cols">
-    <div>
+    <div class="cp">
       <h1 id="hero-title">Adjourn: The Democratically Ended Meeting</h1>
       <p class="lead">Transform the way you leave, in the era of the overrun. Anyone in the meeting votes to end it, anonymously and once. At the threshold, it ends.<sup><a href="#fn-1" id="r-1">1</a></sup></p>
       <div class="ctas">
@@ -345,7 +359,7 @@
       <p class="fine small">Free. For meetings in Microsoft Teams. Nothing to install on anyone's machine.</p>
     </div>
     <div class="stage" aria-label="A simulated vote on the Adjourn card">
-      <div class="msg">
+      <div class="msg glass mv">
         <div class="who"><i><svg aria-hidden="true"><use href="#ring"/></svg></i>Adjourn · 14:32</div>
         <div class="acard">
           <b>Motion to adjourn</b>
@@ -396,7 +410,7 @@
     <p class="eyebrow">Featured news</p>
     <h2 id="news-title">Discover what's happening with Adjourn</h2>
     <div class="cards">
-      <article class="card">
+      <article class="card mv">
         <div class="media threads" aria-hidden="true">
           <div class="row"><i></i><span></span></div><div class="row"><i></i><span class="short"></span></div><div class="row"><i></i><span></span></div><div class="row"><i style="background:#107c10"></i><span class="short" style="background:#107c10;opacity:.6"></span></div>
         </div>
@@ -406,7 +420,7 @@
           <a class="link" href="#solutions">Learn more</a>
         </div>
       </article>
-      <article class="card">
+      <article class="card mv">
         <div class="media quadrant" aria-hidden="true">
           <svg viewBox="0 0 200 160" fill="none"><rect x="20" y="10" width="160" height="130" stroke="#bdc5d2"/><path d="M100 10v130M20 75h160" stroke="#bdc5d2" stroke-dasharray="3 3"/><text x="24" y="150" font-size="8" fill="#616161" font-family="system-ui">Completeness of exit →</text><text x="12" y="135" font-size="8" fill="#616161" font-family="system-ui" transform="rotate(-90 12 135)">Ability to leave →</text><circle cx="168" cy="22" r="7" fill="#5d5bd4"/><text x="124" y="40" font-size="8" fill="#201f48" font-family="system-ui" font-weight="600">Adjourn</text><circle cx="44" cy="118" r="5" fill="#bdc5d2"/><text x="52" y="121" font-size="7" fill="#616161" font-family="system-ui">Another five minutes</text><circle cx="70" cy="96" r="5" fill="#bdc5d2"/><text x="78" y="99" font-size="7" fill="#616161" font-family="system-ui">Leaving quietly</text></svg>
         </div>
@@ -416,7 +430,7 @@
           <a class="link" href="#fn-3">Read the report</a>
         </div>
       </article>
-      <article class="card">
+      <article class="card mv">
         <div class="media prompt" aria-hidden="true">
           <div class="bubble">Summarise the decisions so far.</div>
           <div class="bubble">There were none. Would you like to adjourn?</div>
@@ -449,7 +463,7 @@
         <details name="vote"><summary>Count those present <span class="chev" aria-hidden="true"></span></summary><p>Votes are measured against the people in the meeting at that moment, not the invitation list. Someone who voted and then left stops counting. Someone who joins late raises the bar.<sup><a href="#fn-4" id="r-4">4</a></sup></p></details>
         <details name="vote"><summary>Turn meetings into action <span class="chev" aria-hidden="true"></span></summary><p>The action is leaving. Adjourn keeps work moving forward by moving it out of the meeting and into the afternoon, where it was going to happen anyway.</p></details>
       </div>
-      <div class="figure"><div><div class="big">4 / 7</div><p class="cap">Present, and voting. The invitation list of 23 is not consulted.</p></div></div>
+      <div class="figure mv"><div><div class="big">4 / 7</div><p class="cap">Present, and voting. The invitation list of 23 is not consulted.</p></div></div>
     </div>
 
     <div class="panel" id="panel-carry" role="tabpanel" aria-labelledby="tab-carry">
@@ -459,7 +473,7 @@
         <details name="carry"><summary>The organiser presses the button <span class="chev" aria-hidden="true"></span></summary><p>Microsoft Teams gives no app a way to end a meeting for everyone.<sup><a href="#fn-5" id="r-5">5</a></sup> Adjourn therefore ends it the way a chair does: by asking, with the numbers, in front of nobody but the chair.</p></details>
         <details name="carry"><summary>Break down language barriers <span class="chev" aria-hidden="true"></span></summary><p>The card is in English. The sentiment translates.</p></details>
       </div>
-      <div class="figure dark"><div><div class="big">50%</div><p class="cap">The default threshold. Also 67, 75 and 100, for organisers who enjoy a landslide.</p></div></div>
+      <div class="figure dark mv"><div><div class="big">50%</div><p class="cap">The default threshold. Also 67, 75 and 100, for organisers who enjoy a landslide.</p></div></div>
     </div>
 
     <div class="panel" id="panel-secret" role="tabpanel" aria-labelledby="tab-secret">
@@ -469,7 +483,7 @@
         <details name="secret"><summary>Nothing to sign in to <span class="chev" aria-hidden="true"></span></summary><p>No account, no database, no telemetry. The organiser's notification carries two numbers in a URL. The state lives in the memory of one small process and dies with the meeting.</p></details>
         <details name="secret"><summary>Collaborate securely <span class="chev" aria-hidden="true"></span></summary><p>The permissions Adjourn asks for are the ones it uses: read the meeting's basic details, read who is in it, send the organiser a notification, read the chat's members. It cannot read messages, and it does not want to.</p></details>
       </div>
-      <div class="figure"><div><div class="big">0</div><p class="cap">Names shown, stored, or sent. The count is the whole output.</p></div></div>
+      <div class="figure mv"><div><div class="big">0</div><p class="cap">Names shown, stored, or sent. The count is the whole output.</p></div></div>
     </div>
 
     <div class="panel" id="panel-it" role="tabpanel" aria-labelledby="tab-it">
@@ -479,7 +493,7 @@
         <details name="it"><summary>Optimise workspaces <span class="chev" aria-hidden="true"></span></summary><p>Rosters above 350 and participants who joined anonymously are outside what Microsoft's participant API reports, so very large or open meetings count less precisely. Town halls were never going to be ended by a vote.</p></details>
         <details name="it"><summary>Read the manual <span class="chev" aria-hidden="true"></span></summary><p>The README covers registration, the endpoint, the dev tunnel and the upload, in order. <a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Read it on GitHub</a></p></details>
       </div>
-      <div class="figure dark"><div><div class="big">1</div><p class="cap">Process. One endpoint. One card. One button.</p></div></div>
+      <div class="figure dark mv"><div><div class="big">1</div><p class="cap">Process. One endpoint. One card. One button.</p></div></div>
     </div>
   </div>
 </section>
@@ -503,8 +517,8 @@
         <a class="btn" href="#get">Learn more</a>
       </div>
       <div class="cards two">
-        <article class="plan"><h4>Adjourn Essentials</h4><p class="price">0 kr. <small>user/month</small></p><p>End meetings by video, chat and phone using an affordable, all-in-one card for up to 300 people.</p><ul><li>One card per meeting</li><li>One vote per person</li><li>Thresholds from 50 to 100 percent</li></ul><a class="link" href="#get">Learn more</a></article>
-        <article class="plan"><h4>Adjourn Premium</h4><p class="price">0 kr. <small>user/month</small></p><p>Get extra features that help make endings more personalised, intelligent and protected.<sup><a href="#fn-6" id="r-6">6</a></sup></p><ul><li>Everything in Essentials</li><li>The same file</li><li>A warmer feeling</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn Essentials</h4><p class="price">0 kr. <small>user/month</small></p><p>End meetings by video, chat and phone using an affordable, all-in-one card for up to 300 people.</p><ul><li>One card per meeting</li><li>One vote per person</li><li>Thresholds from 50 to 100 percent</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn Premium</h4><p class="price">0 kr. <small>user/month</small></p><p>Get extra features that help make endings more personalised, intelligent and protected.<sup><a href="#fn-6" id="r-6">6</a></sup></p><ul><li>Everything in Essentials</li><li>The same file</li><li>A warmer feeling</li></ul><a class="link" href="#get">Learn more</a></article>
       </div>
     </div>
 
@@ -516,8 +530,8 @@
         <a class="btn" href="#get">Learn more</a>
       </div>
       <div class="cards two">
-        <article class="plan"><h4>Adjourn (free)</h4><p class="price">0 kr.</p><p>Vote to end calls of up to 60 minutes, which is also the point at which you should have.</p><ul><li>Free, like the organiser's time</li><li>No account</li></ul><a class="link" href="#get">Learn more</a></article>
-        <article class="plan"><h4>Adjourn Family</h4><p class="price">0 kr. <small>year</small></p><p>Votes for up to six people, who are nonetheless expected at dinner.</p><ul><li>For 1 to 6 people</li><li>Thresholds a parent can set</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn (free)</h4><p class="price">0 kr.</p><p>Vote to end calls of up to 60 minutes, which is also the point at which you should have.</p><ul><li>Free, like the organiser's time</li><li>No account</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn Family</h4><p class="price">0 kr. <small>year</small></p><p>Votes for up to six people, who are nonetheless expected at dinner.</p><ul><li>For 1 to 6 people</li><li>Thresholds a parent can set</li></ul><a class="link" href="#get">Learn more</a></article>
       </div>
     </div>
 
@@ -529,8 +543,8 @@
         <a class="btn" href="#get">Learn more</a>
       </div>
       <div class="cards two">
-        <article class="plan"><h4>Adjourn Enterprise</h4><p class="price">0 kr. <small>user/month</small></p><p>End meetings for more than 300 people. Microsoft's participant API counts rosters below 350, so bring 349 and a sense of occasion.</p><ul><li>Everything in Premium</li><li>Still the same file</li></ul><a class="link" href="#get">Learn more</a></article>
-        <article class="plan"><h4>Adjourn Rooms</h4><p class="price">0 kr. <small>room/month</small></p><p>Conduct meetings and facilitate inclusive endings anywhere you work. The room votes as one. The room usually agrees.</p><ul><li>Hybrid: those in the room may use their phones</li><li>Pro Management: none</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn Enterprise</h4><p class="price">0 kr. <small>user/month</small></p><p>End meetings for more than 300 people. Microsoft's participant API counts rosters below 350, so bring 349 and a sense of occasion.</p><ul><li>Everything in Premium</li><li>Still the same file</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn Rooms</h4><p class="price">0 kr. <small>room/month</small></p><p>Conduct meetings and facilitate inclusive endings anywhere you work. The room votes as one. The room usually agrees.</p><ul><li>Hybrid: those in the room may use their phones</li><li>Pro Management: none</li></ul><a class="link" href="#get">Learn more</a></article>
       </div>
     </div>
 
@@ -542,8 +556,8 @@
         <a class="btn" href="#get">Learn more</a>
       </div>
       <div class="cards two">
-        <article class="plan"><h4>Adjourn Education</h4><p class="price">0 kr.</p><p>Students and educators at eligible institutions get Adjourn for free, which is the price everyone else pays too.</p><ul><li>Threshold set by the educator</li><li>Students may vote; the bell still wins</li></ul><a class="link" href="#get">Learn more</a></article>
-        <article class="plan"><h4>Adjourn for lectures</h4><p class="price">0 kr.</p><p>Choose from one plan to suit your school's needs.</p><ul><li>One plan</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn Education</h4><p class="price">0 kr.</p><p>Students and educators at eligible institutions get Adjourn for free, which is the price everyone else pays too.</p><ul><li>Threshold set by the educator</li><li>Students may vote; the bell still wins</li></ul><a class="link" href="#get">Learn more</a></article>
+        <article class="plan mv"><h4>Adjourn for lectures</h4><p class="price">0 kr.</p><p>Choose from one plan to suit your school's needs.</p><ul><li>One plan</li></ul><a class="link" href="#get">Learn more</a></article>
       </div>
     </div>
   </div>
@@ -554,21 +568,21 @@
     <p class="eyebrow">Customer stories</p>
     <h2 id="stories-title">See how customers are leaving with Adjourn</h2>
     <div class="cards">
-      <article class="story">
+      <article class="story mv">
         <span class="meta">Professional services · Denmark</span>
         <h3>A bureau eliminates 98% of the last ten minutes with Adjourn</h3>
         <p>A small Danish bureau improved meeting accuracy and efficiency by ending its weekly sync at the point where everyone had stopped listening, saving 40 person-minutes a week and enhancing lunch.<sup><a href="#fn-7" id="r-7">7</a></sup></p>
         <div class="products"><b>Products</b><span>Adjourn Essentials</span></div>
         <a class="btn secondary" href="#fn-7">Read the story</a>
       </article>
-      <article class="story">
+      <article class="story mv">
         <span class="meta">Governance · Everywhere</span>
         <h3>A standing committee unifies its members under one threshold</h3>
         <p>The committee created a more streamlined member experience by agreeing, for the first time in its history, on something: 67 percent.</p>
         <div class="products"><b>Products</b><span>Adjourn Premium</span></div>
         <a class="btn secondary" href="#fn-7">Read the story</a>
       </article>
-      <article class="story">
+      <article class="story mv">
         <span class="meta">Technology · Hybrid</span>
         <h3>The Thursday all-hands develops an ending in record time</h3>
         <p>The all-hands, a division of a larger calendar, developed an advanced ending using Adjourn in two days, with a demo that nobody asked to be extended.</p>
@@ -585,7 +599,7 @@
     <h2 id="research-title">Adjourn 2 is in research</h2>
     <p class="lead muted" style="margin-top:1rem;max-width:46rem">Adjourn asks the organiser to end the meeting. Adjourn 2 asks less politely. Den Frie Vilje Research is evaluating three escalations for meetings whose scheduled end has passed.<sup><a href="#fn-8" id="r-8">8</a></sup></p>
     <div class="cards">
-      <article class="card">
+      <article class="card mv">
         <div class="media" aria-hidden="true"><div class="swell"><i style="--h:20;--d:0"></i><i style="--h:30;--d:.2"></i><i style="--h:45;--d:.4"></i><i style="--h:40;--d:.1"></i><i style="--h:60;--d:.5"></i><i style="--h:55;--d:.3"></i><i style="--h:75;--d:.6"></i><i style="--h:70;--d:.2"></i><i style="--h:85;--d:.7"></i><i style="--h:80;--d:.4"></i><i style="--h:95;--d:.8"></i><i style="--h:100;--d:.3"></i></div></div>
         <div class="body">
           <p class="eyebrow">Escalation 1</p>
@@ -594,7 +608,7 @@
           <a class="link" href="#fn-8">Hear the research</a>
         </div>
       </article>
-      <article class="card">
+      <article class="card mv">
         <div class="media" aria-hidden="true">
           <svg class="robot" viewBox="0 0 200 140" fill="none" stroke="#c5cbfa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 120h160"/><path d="M40 120V70l30-30 40 10"/><circle cx="40" cy="70" r="6" fill="#7f85f5" stroke="none"/><circle cx="70" cy="40" r="6" fill="#7f85f5" stroke="none"/><path d="M110 50l14-4 6 12-6 2" /><path d="M118 44l-6-18" stroke="#fff"/><path d="M106 24c0-6 20-6 20 0s-6 4-6 10h-8c0-6-6-4-6-10z" fill="#fff" stroke="#fff"/><path d="M130 36c6 8 14 20 10 40" stroke="#8dc8e8" stroke-dasharray="4 5"/><rect x="120" y="92" width="62" height="28" rx="3" fill="#201f48" stroke="#c5cbfa"/><path d="M120 92l10-28h52l-4 28" fill="#2b2b40" stroke="#c5cbfa"/></svg>
         </div>
@@ -605,7 +619,7 @@
           <a class="link" href="#fn-8">See the lab</a>
         </div>
       </article>
-      <article class="card">
+      <article class="card mv">
         <div class="media" aria-hidden="true"><div class="lights"><i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i><i style="--d:5"></i><i style="--d:6"></i><i style="--d:7"></i><i style="--d:8"></i><i style="--d:9"></i><i style="--d:10"></i><i style="--d:11"></i><i style="--d:12"></i><i style="--d:13"></i><i style="--d:14"></i><i style="--d:15"></i><i style="--d:16"></i><i style="--d:17"></i></div></div>
         <div class="body">
           <p class="eyebrow">Escalation 3</p>
@@ -623,10 +637,10 @@
     <p class="eyebrow">Get started</p>
     <h2 id="get-title">Take the next step with democratically ended meetings, built for your work, your passions, and the ideas you're turning into reality, after this.</h2>
     <div class="cols">
-      <div><h3>For business</h3><p>Shorten your customer meetings with ending software designed for up to 300 people.</p><a class="link" href="#plans">See plans and pricing</a></div>
-      <div><h3>For individuals</h3><p>Grow your evening, stay organised, and leave with clients. Plan events, share photos, and get home.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Try Adjourn for free</a></div>
-      <div><h3>For enterprise</h3><p>Achieve more with Adjourn for more than 300 people, 349 at a time.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Get started</a></div>
-      <div><h3>For IT</h3><p>One Node.js process, one bot registration, one zip to upload. The README is the manual, in order.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Read the README</a></div>
+      <div class="cp"><h3>For business</h3><p>Shorten your customer meetings with ending software designed for up to 300 people.</p><a class="link" href="#plans">See plans and pricing</a></div>
+      <div class="cp"><h3>For individuals</h3><p>Grow your evening, stay organised, and leave with clients. Plan events, share photos, and get home.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Try Adjourn for free</a></div>
+      <div class="cp"><h3>For enterprise</h3><p>Achieve more with Adjourn for more than 300 people, 349 at a time.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Get started</a></div>
+      <div class="cp"><h3>For IT</h3><p>One Node.js process, one bot registration, one zip to upload. The README is the manual, in order.</p><a class="link" href="https://github.com/den-frie-vilje/adjourn#readme">Read the README</a></div>
     </div>
     <pre class="cmd" aria-label="Install commands">git clone https://github.com/den-frie-vilje/adjourn
 cd adjourn &amp;&amp; pnpm install
@@ -686,6 +700,15 @@ pnpm package      # appPackage/adjourn.zip, to upload to a meeting</pre>
 
 <script>
 (() => {
+  // Entrances: elements enter from a visible resting state only when scripting runs.
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const entering = document.querySelectorAll(".mv, .cp");
+  if ("IntersectionObserver" in window && !reduce) {
+    document.documentElement.classList.add("js");
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+    entering.forEach((el) => io.observe(el));
+  }
+
   // The hero demo: the real rule on made-up numbers. 7 present, threshold 50%, so it takes 4.
   const present = 7, needed = 4;
   let votes = 3, voted = false;
